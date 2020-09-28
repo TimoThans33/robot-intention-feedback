@@ -1,0 +1,8 @@
+*.bak
+*/.vs/
+*/__vm/
+*/Debug/
+Laser_Code_ARM.vcxproj.filters
+.vscode/
+build/
+Laser_Code_ARM/version.inf
