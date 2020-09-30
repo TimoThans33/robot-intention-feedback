@@ -6,3 +6,8 @@ Laser_Code_ARM.vcxproj.filters
 .vscode/
 build/
 Laser_Code_ARM/version.inf
+Laser_Code_ARM/Laser_Code_ARM.vcxproj
+Laser_Code_ARM/Laser_Code_ARM.sln
+Laser_Code_ARM/build.bat
+Laser_Code_ARM/laserDotTest.py
+Laser_Code_ARM/SampleProjections.txt
