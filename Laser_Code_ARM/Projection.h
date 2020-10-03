@@ -1,7 +1,7 @@
 #ifndef PROJECTION_H
 #define PROJECTION_H
 
-#define STEPSIZE 30
+#define STEPSIZE 1000
 //software limits of laser (in uint16_t )
 #define MAX_X 4000
 #define MIN_X 0
