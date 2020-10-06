@@ -16,3 +16,19 @@ while True:
     time.sleep(5)
     send_data = bytearray([0, 30])
     ser.write(send_data)
+    time.sleep(5)
+    send_data = bytearray([3, 20])
+    ser.write(send_data)
+    time.sleep(5)
+    send_data = bytearray([4, 20])
+    ser.write(send_data)
+    time.sleep(5)
+
+# Projective Transformaties
+# Zoek wat meer uit wat al bestaat...
+# Vooral focusen op de technologie en impact
+
+# Impact , bestaande technologie, Omschrijving van de 2 projectie methode, Criteria, (misschien de beoordeling)
+# Week 43 (23 Oktober) 1ste verslagje inleveren
+# 27 Oktober meeting inplannen 14:00
+# Standaard dinsdag om 14:00 meeting
