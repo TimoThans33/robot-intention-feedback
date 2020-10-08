@@ -1,28 +1,31 @@
 import numpy as np 
 import matplotlib.pyplot as plt
-import cv2
 
-CIRCLE = 0
 TRANSCIRCLE = 1
 HELLOWORLD = 2
 TRANSHELLOWORLD = 3
 
 # Give a flag for which projection you want
 flag = HELLOWORLD
+
 print(flag)
+
+
 if flag == 1:
     # Change the radius of the projected circle
     RADIUS = 300
+    # Number of datapoints in the projection
     DATAPOINTS = 100
+
+    # Transformation Angles
     THETA = 30
-    OMEGA = 0
-    PHI = 0
 
     x = RADIUS * np.cos(np.linspace(0, 2*np.pi, DATAPOINTS)) + 2200
     y = RADIUS * np.sin(np.linspace(0, 2*np.pi, DATAPOINTS)) + 2000
     x = x.round()
     y = y.round()
 
+    # Rotation around z-axis
     AffineTransformMatrix = np.array([[1 , 0, 0], [0, np.cos(THETA/180*np.pi), -np.sin(THETA/180*np.pi)], [0, np.sin(THETA/180*np.pi), np.cos(THETA/180*np.pi)]])
     print(AffineTransformMatrix)
     #result = cv2.warpAffine([x, y, np.ones(DATAPOINTS)], AffineTransformMatrix, DATAPOINTS )
@@ -162,13 +165,13 @@ if flag == 3 :
     plt.plot(x[0:4*DATAPOINTSI+DATAPOINTSII],y[0:4*DATAPOINTSI+DATAPOINTSII])
     plt.show()
 
+    # Transfromation matrix respectively x, y, z -axis
     AffineTransformMatrix = np.array([[np.cos(THETA/180*np.pi) , 0, np.sin(THETA/180*np.pi)], [0, 1, 0], [-np.sin(THETA/180*np.pi), 0, np.cos(THETA/180*np.pi)]])
     #AffineTransformMatrix = np.array([[np.cos(THETA/180*np.pi) , -np.sin(THETA/180*np.pi), 0], [np.sin(THETA/180*np.pi), np.cos(THETA/180*np.pi), 0], [0, 0, 1]])
     #AffineTransformMatrix = np.array([[1 , 0, 0], [0, np.cos(THETA/180*np.pi), -np.sin(THETA/180*np.pi)], [0, np.sin(THETA/180*np.pi), np.cos(THETA/180*np.pi)]])
 
     print(AffineTransformMatrix)
 
-    #result = cv2.warpAffine([x, y, np.ones(DATAPOINTS)], AffineTransformMatrix, DATAPOINTS )
     result = np.zeros([3, len(x)])
 
     for i in range(4*DATAPOINTSI+DATAPOINTSII):
