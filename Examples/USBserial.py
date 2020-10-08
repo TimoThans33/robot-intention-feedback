@@ -20,7 +20,7 @@ while True:
     send_data = bytearray([3, 20])
     ser.write(send_data)
     time.sleep(5)
-    send_data = bytearray([4, 20])
+    send_data = bytearray([5, 20])
     ser.write(send_data)
     time.sleep(5)
 
