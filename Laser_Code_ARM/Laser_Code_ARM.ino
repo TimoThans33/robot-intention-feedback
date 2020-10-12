@@ -9,6 +9,7 @@
 #define HELLOWORLD 3
 #define TRANSHELLOWORLD 4
 #define PVLOGO 5
+#define ARROW 6
 
 //#define DEBUG
 
@@ -18,6 +19,8 @@
 #define DATAPOINTSI 100
 #define DATAPOINTSII 100
 #define DATAPOINTSIII 173
+#define DATAPOINTSIIII 74
+#define SINCOS 50
 
 int circleX[DATAPOINTS] = {2200,2216,2233,2249,2265,2281,2296,2312,2326,2340,2354,2367,2379,2391,2402,2411,2421,2429,2436,2442,2448,2453,2455,2458,2460,2460,2459,2457,2455,2450,2446,2440,2433,2425,2417,2407,2397,2385,2373,2360,2347,2333,2319,2304,2289,2274,2257,2241,2225,2209,2191,2175,2159,2143,2126,2111,2096,2081,2067,2053,2040,2027,2015,2003,1993,1983,1975,1967,1960,1954,1950,1945,1943,1941,1940,1940,1942,1945,1947,1952,1958,1964,1971,1979,1989,1998,2009,2021,2033,2046,2060,2074,2088,2104,2119,2135,2151,2167,2184,2200};
 int circleY[DATAPOINTS] = {2300,2299,2298,2295,2290,2285,2279,2271,2262,2252,2242,2230,2217,2204,2189,2174,2158,2142,2125,2107,2089,2071,2052,2033,2014,1995,1976,1957,1939,1920,1902,1884,1867,1850,1834,1818,1804,1790,1776,1764,1753,1743,1733,1725,1718,1712,1707,1704,1701,1700,1700,1701,1704,1707,1712,1718,1725,1733,1743,1753,1764,1776,1790,1804,1818,1834,1850,1867,1884,1902,1920,1939,1957,1976,1995,2014,2033,2052,2071,2089,2107,2125,2142,2158,2174,2189,2204,2217,2230,2242,2252,2262,2271,2279,2285,2290,2295,2298,2299,2300};
@@ -31,10 +34,23 @@ int HELLOX[DATAPOINTSI] = {2300,2257,2214,2171,2128,2085,2042,2000,1957,1914,187
 int PRIMEVISIONX[DATAPOINTSIII] = {2390,2390,2375,2375,2390,2390,2435,2450,2465,2540,2555,2570,2615,2630,2645,2690,2690,2615,2600,2600,2555,2525,2510,2495,2480,2480,2465,2465,2405,2450,2465,2465,2480,2480,2495,2510,2570,2600,2600,2630,2675,2690,2690,2615,2570,2555,2540,2465,2390,2390,2375,2375,2060,2060,2045,2060,2060,2120,2150,2150,2240,2240,2270,2345,2345,2330,2330,2075,2315,2345,2345,2330,2270,2255,2240,2240,2225,2165,2150,2150,2135,2120,2075,2045,2450,2450,2405,2390,2375,2360,2330,2330,2375,2390,2405,2405,2375,2375,2300,2285,2270,2285,2285,2300,2285,2270,2255,2225,2270,2270,2255,2255,2240,2225,2225,2165,2165,2165,2225,2240,2240,2225,2225,2240,2255,2270,2285,2285,2240,2255,2270,2315,2375,2375,2405,2405,2375,2360,2345,2330,2330,2390,2405,2450,2420,2405,2390,2360,2315,2300,2270,2255,2225,2180,2165,2165,2150,2150,2135,2135,2135,2165,2165,2180,2195,2240,2255,2270,2300,2315,2360,2375,2390};
 int PRIMEVISIONY[DATAPOINTSIII] = {2145,2160,2175,2340,2355,2415,2460,2460,2475,2475,2490,2475,2475,2460,2460,2415,2145,2145,2160,2370,2415,2415,2400,2400,2385,2190,2175,2145,2145,2145,2160,2175,2190,2400,2400,2415,2415,2385,2175,2145,2145,2160,2400,2475,2475,2490,2475,2475,2400,2355,2340,2175,2145,2160,2175,2190,2205,2205,2235,2475,2475,2235,2205,2205,2175,2160,2145,2145,2145,2175,2190,2205,2205,2220,2220,2460,2475,2475,2460,2220,2220,2205,2205,2175,1830,1845,1890,1890,1905,1905,1935,1980,1980,1965,1980,1995,2025,2040,2115,2115,2100,2085,2070,2055,2040,2040,2055,2025,1980,1965,1965,1980,1995,1980,1965,2025,2100,2040,1980,1995,2010,2025,2040,2055,2055,2040,2055,2070,2115,2100,2115,2115,2055,2040,2010,1965,1965,1980,1980,1965,1950,1890,1890,1845,1830,1845,1845,1875,1875,1890,1890,1905,1905,1950,1950,1965,1980,1995,2010,2100,2010,1980,1965,1950,1950,1905,1905,1890,1890,1875,1875,1860,1860};
 
-char flag;
+int PIJLY[DATAPOINTSIIII] = {2438,2438,2012,2012,2438,2444,2450,2492,2492,2534,2534,2492,2492,2480,2474,2450,2450,2276,2270,2264,2270,3320,3332,3332,3320,2270,2264,2270,2276,2336,2336,2372,2378,2384,2384,2528,2528,2486,2486,2450,2444,2444,2450,2486,2486,2528,2528,2384,2384,2372,2366,2336,2336,2264,2264,3320,3332,3332,3320,2270,2264,2450,2450,2468,2474,2492,2492,2528,2528,2492,2492,2450,2444,2012};
+int PIJLX[DATAPOINTSIIII] = {2034,2040,2466,2478,2904,2904,2910,2868,2862,2820,2814,2772,2766,2754,2754,2730,2724,2550,2550,2544,2538,2538,2526,2418,2406,2406,2400,2394,2394,2334,2328,2292,2292,2286,2280,2136,2118,2076,2070,2034,2040,2040,2040,2076,2082,2124,2130,2274,2280,2292,2292,2322,2328,2400,2406,2406,2418,2526,2538,2538,2544,2730,2736,2754,2754,2772,2778,2814,2820,2856,2862,2904,2904,2472};
+
+int COS[SINCOS];
+int SIN[SINCOS];
+
+char flag = 1;
 char data[2];
 int i;
 int k;
+
+bool arg1;
+bool arg2;
+bool arg3;
+bool arg4;
+bool arg5;
+bool arg6;
 
 void setup()
 {
@@ -53,35 +69,39 @@ void setup()
 
 void loop()
 {
-  while (SerialUSB.available() < 2) {
+  while (SerialUSB.available() < 0) {
     if (flag == 1){
       SerialUSB.println("waiting for radius of cirkel via USB Serial. MAX X = 4000 MAX Y = 4000");
       flag = 0;
     }
   }
-#ifndef DEBUG
-  SerialUSB.print("You have send:");
-  for (int n=0; n<2; n++){
-      data[n] = SerialUSB.read();
-      SerialUSB.print(data[n]);
-      SerialUSB.print(":");
+  if (flag ==1){
+       data[0] = SerialUSB.read();
   }
-  SerialUSB.print("\n");
-#endif
   switch (data[0]) {
     case CIRCLETAYLSER:
-      while(i< DATAPOINTSII){
+      arg1 = true;
+      while(arg1 == true){
         int targetX = 10 * data[1] * cos(i*2*3.14 / DATAPOINTSII) + 2200;
         int targetY = 10 * data[1] * sin(i*2*3.14 / DATAPOINTSII) + 2000;
         moveAbs(targetX, targetY);
-        i++;
+        if (i == DATAPOINTSII){
+          i = 0;
+        }
+        else {
+          i++;
+        }
+        if (SerialUSB.available()>0){
+          data[0] = SerialUSB.read();
+          arg1 = false;
+        }
       }
-      i = 0;
       break;
      case SQUARE:
       break;
      case HELLOWORLD:
-       while(k < NOPROJECTIONS){
+      arg2 = true;
+      while(arg2 == true){
         while(i < DATAPOINTSI){
           int targetX = HELLOX[i];
           int targetY = HELLOY[i];
@@ -89,13 +109,15 @@ void loop()
           i++;
         }
         i = 0;
-        k++;
-       }
-       k = 0;
-       i = 0;
-      break;
+        if (SerialUSB.available()>0){
+          data[0] = SerialUSB.read();
+          arg2 = false;
+        }
+      }
+        break;
      case TRANSHELLOWORLD:
-       while(k < NOPROJECTIONS){
+      arg3 = true;
+      while(arg3 == true){
         while(i < DATAPOINTSI){
           int targetX = TRANSHELLOX[i];
           int targetY = TRANSHELLOY[i];
@@ -103,39 +125,59 @@ void loop()
           i++;
         }
         i = 0;
-        k++;
-       }
-       k = 0;
-       i = 0;
-       break;
-      case PVLOGO:
-       while(k < NOPROJECTIONS){
-        while(i < DATAPOINTSIII){
-          int targetX = PRIMEVISIONX[i];
-          int targetY = PRIMEVISIONY[i];
-          moveAbs(targetX, targetY);
-          i++;
+        if (SerialUSB.available()>0){
+          data[0] = SerialUSB.read();
+          arg3 = false;
         }
-        i = 0;
-        k++;
-       }
-       k = 0;
-       i = 0;
-      break;     
+      }
+        break;
      case CIRCLELUT:
-       while(k < NOPROJECTIONS){
-        while(i < DATAPOINTS){
+      arg4 = true;
+      while(arg4 == true){
+        while(i < DATAPOINTSI){
           int targetX = circleX[i];
           int targetY = circleY[i];
           moveAbs(targetX, targetY);
           i++;
         }
         i = 0;
-        k++;
-       }
-       k = 0;
-       i = 0;
-      break;
+        if (SerialUSB.available()>0){
+          data[0] = SerialUSB.read();
+          arg4 = false;
+        }
+      }
+        break;
+     case PVLOGO:
+      arg5 = true;
+      while(arg5 == true){
+        while(i < DATAPOINTSI){
+          int targetX = PRIMEVISIONX[i];
+          int targetY = PRIMEVISIONY[i];
+          moveAbs(targetX, targetY);
+          i++;
+        }
+        i = 0;
+        if (SerialUSB.available()>0){
+          data[0] = SerialUSB.read();
+          arg5 = false;
+        }
+      }
+        break;
+      case ARROW:
+        arg6 = true;
+        while(arg6 == true){
+          while(i < DATAPOINTSIIII){
+            int targetX = PIJLY[i];
+            int targetY = PIJLX[i];
+            moveAbs(targetX, targetY);
+            i++;
+          }
+          i = 0;
+          if (SerialUSB.available()>0){
+            data[0] = SerialUSB.read();
+            arg6 = false;
+          }
+        }
   }
   flag = 1;
 }

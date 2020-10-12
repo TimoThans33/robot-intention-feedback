@@ -11,24 +11,24 @@ while True:
     rec_data = ser.readline()
     if rec_data:
         print(rec_data)
-    send_data = bytearray([2, 20])
-    ser.write(send_data)
-    time.sleep(5)
-    send_data = bytearray([0, 30])
-    ser.write(send_data)
-    time.sleep(5)
-    send_data = bytearray([3, 20])
-    ser.write(send_data)
-    time.sleep(5)
-    send_data = bytearray([5, 20])
-    ser.write(send_data)
-    time.sleep(5)
-
-# Projective Transformaties
-# Zoek wat meer uit wat al bestaat...
-# Vooral focusen op de technologie en impact
-
-# Impact , bestaande technologie, Omschrijving van de 2 projectie methode, Criteria, (misschien de beoordeling)
-# Week 43 (23 Oktober) 1ste verslagje inleveren
-# 27 Oktober meeting inplannen 14:00
-# Standaard dinsdag om 14:00 meeting
+    user_in = input("Projection :")
+    print(user_in)
+    if user_in == "helloworld" :
+        for i in range (100):
+            send_data = bytearray([3, 10])
+            ser.write(send_data)
+    if user_in == "circle" :
+        send_data = bytearray([2, 10]) 
+        ser.write(send_data)
+    if user_in == "taylor" :
+        for i in range(100) :
+            send_data = bytearray([0, 20])
+            ser.write(send_data)
+    if user_in == "TUD" :
+        for i in range(100):
+            send_data = bytearray([5, 10])
+            ser.write(send_data)
+    if user_in == "arrow" :
+        for i in range(100):
+            send_data = bytearray([6, 10])
+            ser.write(send_data)
