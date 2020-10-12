@@ -6,8 +6,9 @@ Firmware for the laser/galvo controller.
 ## Output
 ![Plot of TU Delft logo](Figures/TUDplot.png)
 ![Projection of TU Delft logo](Figures/TUD.png)
-Currently there are 5 projections stored on the Arduino M0. The program USBserial.py takes in user input as shown here:
 ![Terminal input](Figures/terminal.png)
+
+Currently there are 5 projections stored on the Arduino M0. The program USBserial.py takes in user input as shown here:
 
 ## Getting Started
 1. Download / clone code 
