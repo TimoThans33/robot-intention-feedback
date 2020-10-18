@@ -21,7 +21,7 @@ class Example(QWidget):
         # self.setGeometry(300, 300, 350, 250)
         # self.setWindowTitle('Quit button')
         self.showFullScreen()
-
+    
 def main():
     app = QApplication(sys.argv)
     ex = Example()
