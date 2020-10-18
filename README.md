@@ -20,6 +20,7 @@ According to Qt for Debian-base GNU/Linux systems we need to install a bunch of 
 ```
 ./QtInstallDependecies.sh
 ```
+
 ## Getting started
 To run the Qt-examples we need to start an X11 server on the BeagleBone Black.
 ```
@@ -29,31 +30,45 @@ Then you can SSH into the server / host computer passing -X
 ```
 ssh -X username@192.168.7.1
 ```
+From then you can start any script you would like. For example a simple QT window.
 ```
 python3 robot-intention-feedback/Qt-examples/example-window.py
 ```
 This should get you started.
 
-## OpenGL & CUDA support
-OpenGL and CUDA are API's that make use of the graphics card on the server / host computer. The installation instructions from NVIDIA for Linux Ubuntu 20.04 x86_64
+## Qt-support
+For typical user interfaces we can utilize Qt. The python samples can be started using:
 ```
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+python3 image-window.py
+``` 
+The cpp examples you can use qmake from Qt. I have created the .pro file.
+```
+qmake Qt-example.pro
+```
+This will update the makefile. Then you can simply
+```
+make
+```
+This will create a run script
+```
+./Qt-example
+```
+For some reason the Qt windows that are created on and shown on the projector have a lot of lag and crash all te time. I am not sure why this is.
+
+## X-windows support
+X-windows is the GUI driver closest to the linux kernel. It is a bit of a pain to program in, but it is much more reliable and faster on embedded devices like our BeagleBone Black. For convenience I made a small make file. Simply in the repository do
+```
+make
 ```
 ```
-sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
+./X-example
+```
+## OpenGL support
+OpenGL is an API for making fancy graphics. It consists of a complex pipeline that makes efficient use of the CPU and GPU on the host computer. For the examples I have used the X-windows drivers as this was much more reliable.
+```
+make openGL-example
 ```
 ```
-wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda-repo-ubuntu2004-11-1-local_11.1.0-455.23.05-1_amd64.deb
+./openGL-example
 ```
-```
-sudo dpkg -i cuda-repo-ubuntu2004-11-1-local_11.1.0-455.23.05-1_amd64.deb
-```
-```
-sudo apt-key add /var/cuda-repo-ubuntu2004-11-1-local/7fa2af80.pub
-```
-```
-sudo apt-get update
-```
-```
-sudo apt-get -y install cuda
-```
+
