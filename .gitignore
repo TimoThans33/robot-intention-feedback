@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.bak
 */.vs/
 */__vm/
@@ -13,3 +14,7 @@ Laser_Code_ARM/laserDotTest.py
 Laser_Code_ARM/SampleProjections.txt
 data.txt
 Test-Figures/*
+=======
+nhd_test.mp4
+Figures/*
+>>>>>>> f844b777da67f8bca5f9ced71b111f127dac81b6
