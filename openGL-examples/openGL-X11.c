@@ -59,7 +59,101 @@ void drawTriangle()
         glVertex3f( 0., 1., 0.);
     glEnd();
 }
+void drawArrow(){
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1., 1., -1., 1., 1., 20.);
+    //glRotatef(10, 0.0, 0.0, 1.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
+    glColor3f(0.,1.,0.);
+    glBegin(GL_QUADS);
+        glVertex3f(-.12, 0.8, 0.);
+        glVertex3f(.12, 0.8, 0.);
+        glVertex3f( .12, -.3, 0.);
+        glVertex3f(-.12, -.3, 0.);
+    glEnd();
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_TRIANGLES);
+        glVertex3f(-.4, -.3, 0.);
+        glVertex3f(.4, -.3, 0.);
+        glVertex3f( 0., -0.9, 0.);
+    glEnd();
+}
+void draw3Dcube(GLsizei width, GLsizei height)
+{
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearDepth(1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glShadeModel(GL_SMOOTH);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1., 1., -1., 1., 1., 20.0);
+    //glTranslatef(0.0f, 1.0f, -6.0f);
+    glRotatef(10, 0.0f, 0.0f, 1.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0., 0., 10., 0., 0., 0., 0., 1., 0.);
+
+    glBegin(GL_QUADS);
+      // Top face (y = 1.0f)
+      // Define vertices in counter-clockwise (CCW) order with normal pointing out
+      glColor3f(0.0f, 1.0f, 0.0f);     // Green
+      glVertex3f( 1.0f, 1.0f, -1.0f);
+      glVertex3f(-1.0f, 1.0f, -1.0f);
+      glVertex3f(-1.0f, 1.0f,  1.0f);
+      glVertex3f( 1.0f, 1.0f,  1.0f);
+ 
+      // Bottom face (y = -1.0f)
+      glColor3f(1.0f, 0.5f, 0.0f);     // Orange
+      glVertex3f( 1.0f, -1.0f,  1.0f);
+      glVertex3f(-1.0f, -1.0f,  1.0f);
+      glVertex3f(-1.0f, -1.0f, -1.0f);
+      glVertex3f( 1.0f, -1.0f, -1.0f);
+ 
+      // Front face  (z = 1.0f)
+      glColor3f(1.0f, 0.0f, 0.0f);     // Red
+      glVertex3f( 1.0f,  1.0f, 1.0f);
+      glVertex3f(-1.0f,  1.0f, 1.0f);
+      glVertex3f(-1.0f, -1.0f, 1.0f);
+      glVertex3f( 1.0f, -1.0f, 1.0f);
+ 
+      // Back face (z = -1.0f)
+      glColor3f(1.0f, 1.0f, 0.0f);     // Yellow
+      glVertex3f( 1.0f, -1.0f, -1.0f);
+      glVertex3f(-1.0f, -1.0f, -1.0f);
+      glVertex3f(-1.0f,  1.0f, -1.0f);
+      glVertex3f( 1.0f,  1.0f, -1.0f);
+ 
+      // Left face (x = -1.0f)
+      glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+      glVertex3f(-1.0f,  1.0f,  1.0f);
+      glVertex3f(-1.0f,  1.0f, -1.0f);
+      glVertex3f(-1.0f, -1.0f, -1.0f);
+      glVertex3f(-1.0f, -1.0f,  1.0f);
+ 
+      // Right face (x = 1.0f)
+      glColor3f(1.0f, 0.0f, 1.0f);     // Magenta
+      glVertex3f(1.0f,  1.0f, -1.0f);
+      glVertex3f(1.0f,  1.0f,  1.0f);
+      glVertex3f(1.0f, -1.0f,  1.0f);
+      glVertex3f(1.0f, -1.0f, -1.0f);
+   glEnd(); 
+
+   GLfloat aspect = (GLfloat)width / (GLfloat)height;
+
+   gluPerspective(45.0f, aspect, 0.1f, 100.0f);
+}
 int main(int argc, char** argv) {
     // Graphical output will be sent to the computer on which it is executed
     dpy = XOpenDisplay(NULL);
@@ -107,7 +201,7 @@ int main(int argc, char** argv) {
         if(xev.type == Expose) {
             XGetWindowAttributes(dpy, win, &gwa);
             glViewport(0, 0, gwa.width, gwa.height);
-            drawTriangle();
+            drawArrow();
             glXSwapBuffers(dpy, win);
         }
 
