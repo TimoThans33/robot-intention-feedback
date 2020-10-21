@@ -154,6 +154,32 @@ void draw3Dcube(GLsizei width, GLsizei height)
 
    gluPerspective(45.0f, aspect, 0.1f, 100.0f);
 }
+
+void drawBezier(void)
+{
+    int i;
+
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glShadeModel(GL_FLAT);
+    glMap1f(GL_MAP1_VERTEX_3, 0.0, 1.0, 3, 4, &ctrlpoints[0][0]);
+    glEnable(GL_MAP1_VERTEX_3);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1., 1., -1., 1., 1., 20.);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(0., 0., 1., 0., 0., 0., 0., 1., 0.);
+
+    glColor3f(0., 1.0, 0.);
+    glBegin(GL_LINE_STRIP);
+        for (i = 0; i <= 30; i++)
+            glEvalCoord1f((GLfloat) i/30.0);
+    glEnd();
+}
+
 int main(int argc, char** argv) {
     // Graphical output will be sent to the computer on which it is executed
     dpy = XOpenDisplay(NULL);
