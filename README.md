@@ -79,3 +79,8 @@ make openGL-example
 ./openGL-example
 ```
 
+## Robot-simulation
+With the robot-simulation files we can simulate a trajectory of the robot without actually installing the projector on the robot.
+![trajectory sim](Images/robot-sim.png)
+![projection sim](Images/proj-sim.png)
+
