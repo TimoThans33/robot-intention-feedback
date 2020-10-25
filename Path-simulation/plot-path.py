@@ -25,8 +25,7 @@ plt.plot(data["x_out"], data["y_out"])
 kernel = np.array([[0, WIDTH],[HEIGHT, WIDTH], [HEIGHT, -WIDTH], [0, -WIDTH], [0, WIDTH]])
 
 #rot_mat = np.array([[np.cos(theta), np.sin(theta)],[-np.sin(theta), np.cos(theta)]])
-print(kernel)
-
+print(x_robot, y_robot)
 for i in range(len(x_robot)):
     # read current angle and create the rotation matrix
     theta = angle[i]
