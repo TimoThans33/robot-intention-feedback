@@ -22,6 +22,16 @@ velocity = data["velocity"]
 x_robot = data["x_out"]
 y_robot = data["y_out"]
 plt.plot(data["x_out"], data["y_out"])
+<<<<<<< HEAD
+
+kernel = np.array([[WIDTH, 0],[-WIDTH, 0],[WIDTH, HEIGH], [-WIDTH, HEIGHT]])
+rot_mat = np.array([np.cos(angle), -np.sin(angle)],[np.sin(angle), np.cos(angle)])
+
+for i in range(len(x_robot)):
+    kernel = np.matmul(kernel, rot_mat) + [x_robot[i], y_robot[i]]
+    plt.plot(kernel[0], kernel[1])
+    plt.show()
+=======
 kernel = np.array([[0, WIDTH],[HEIGHT, WIDTH], [HEIGHT, -WIDTH], [0, -WIDTH], [0, WIDTH]])
 
 #rot_mat = np.array([[np.cos(theta), np.sin(theta)],[-np.sin(theta), np.cos(theta)]])
@@ -55,5 +65,6 @@ for i in range(len(x_robot)):
     if i == 3209:
         print("[message] simulation finished...")
         break
+>>>>>>> f956889a09ab0409c66c279b61545f74529f6b9f
 
 
