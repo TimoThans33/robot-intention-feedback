@@ -86,7 +86,6 @@ int main(int argc, char** argv){
         data_points.b = array_color[2];
         data.push_back(data_points);
         i++;
-        
     }
     
     if(dpy == NULL){
@@ -135,6 +134,10 @@ int main(int argc, char** argv){
         if(xev.type == Expose) {
             XGetWindowAttributes(dpy, win, &gwa);
             glViewport(0, 0, gwa.width, gwa.height);
+            // request for data
+            // recieve data
+            // decode data
+            // draw data
             drawArray();
             glXSwapBuffers(dpy, win);
         }
