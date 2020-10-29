@@ -3,22 +3,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 import json
 import socket
-import queue
+from queue import Queue
 import threading
+import time
 
 HOST =  '127.0.0.1' # localhost
-PORT = 8090
+PORT = 8084
 
 WIDTH = 0.2/2
 HEIGHT = 0.2
 T = 40
 
-class sockets:
-    def __init__(self, host, port):
+class sockets(threading.Thread):
+    def __init__(self, host, port, q1, q2):
         threading.Thread.__init__(self)
         self.host = host
         self.port = port
-    def connect(self):
+        self.q1 = q1
+        self.q2 = q2
+    def run(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((self.host, self.port))
             s.listen()
@@ -26,22 +29,28 @@ class sockets:
             with self.conn:
                 while True:
                     print('connected by', self.addr)
+                    self.q1.put("connected")
                     self.data_client = self.conn.recv(4096)
                     if not self.data_client:
                         break
-                    self.data_x = np.linspace(0,10, 100)
-                    self.data_y = np.linspace(0,10, 100)
-                    self.data_json = json.dumps({})
+                    while self.q2.empty():
+                        pass
+                    self.data = self.q2.get()
+                    self.data_x = self.data[0]
+                    self.data_y = self.data[1]
+                    self.data_json = json.dumps({"x": self.data_x.tolist(), "y": self.data_y.tolist()})
                     self.conn.send(self.data_json.encode())
             self.conn.close()
 
-class simulation:
-    def __init__(self,  width, height, t):
-        threading._main_thread
+class simulation(threading.Thread):
+    def __init__(self,  width, height, t, q1, q2):
+        threading.Thread.__init__(self)
         self.data = pd.read_csv("trajectories/trajectory_1_fpg_out.txt", skiprows=11)
         self.width = width
         self.height = height
         self.t = t
+        self.q1 = q1
+        self.q2 = q2
 
         self.theta = 0
         self.angle = self.data["yaw_angle"]
@@ -55,8 +64,8 @@ class simulation:
         print(self.data.shape)
         print(self.data.ndim)
         print(self.data)
-    def processing(self):
-        for i in range(len(self.x_robot)):
+    def run(self):
+        for i in range(len(self.x_robot)): 
             #print("Iteration: ", i)
             # read current angle and create the rotation matrix
             self.theta = self.angle[i]
@@ -74,6 +83,14 @@ class simulation:
 
             # rotate the coordinates to the robot-frame
             self.rot_coord = np.matmul(np.transpose(self.coord), self.rot_mat)
+
+            # check if a request is send
+            while not self.q1.empty():
+                msg = self.q1.get()
+                data = [ np.transpose(self.rot_coord)[0]-np.transpose(self.rot_coord)[0][0], np.transpose(self.rot_coord)[1]-np.transpose(self.rot_coord)[1][0]] 
+                self.q2.put(data)
+            time.sleep(0.001)
+        self.q2.put("finished")
         print("[message] simulation is finished...")
 
 def testing():
@@ -84,6 +101,12 @@ def testing():
     print("[message] test is finished")
 
 if __name__ == "__main__":
+    request_queue = Queue()
+    msg_queue = Queue()
     # creating objects of classes
-    socket_programming = sockets(HOST, PORT)
-    path_simulation = simulation(WIDTH, HEIGHT, T)
+    socket_programming = sockets(HOST, PORT, request_queue, msg_queue)
+    path_simulation = simulation(WIDTH, HEIGHT, T, request_queue, msg_queue)
+
+    # Start new threads
+    socket_programming.start()
+    path_simulation.start()
