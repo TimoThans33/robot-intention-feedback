@@ -6,13 +6,14 @@ import socket
 from queue import Queue
 import threading
 import time
+import sys
 
-HOST =  '127.0.0.1' # localhost
-PORT = 8084
+#HOST =  '127.0.0.1' # localhost
+#PORT = 8085
 
 WIDTH = 0.2/2
 HEIGHT = 0.2
-T = 40
+T = 100
 
 class sockets(threading.Thread):
     def __init__(self, host, port, q1, q2):
@@ -33,8 +34,6 @@ class sockets(threading.Thread):
                     self.data_client = self.conn.recv(4096)
                     if not self.data_client:
                         break
-                    while self.q2.empty():
-                        pass
                     self.data = self.q2.get()
                     self.data_x = self.data[0]
                     self.data_y = self.data[1]
@@ -57,6 +56,7 @@ class simulation(threading.Thread):
         self.velocity = self.data["velocity"]
         self.x_robot = self.data["x_out"]
         self.y_robot = self.data["y_out"]
+        self.time = self.data["time"]
         self.kernel = np.array([[0, self.width],[self.height, self.width], [self.height, -self.width], [0, -self.width], [0, self.width]])
 
         print("[message] Initializing simulation...")
@@ -89,8 +89,10 @@ class simulation(threading.Thread):
                 msg = self.q1.get()
                 data = [ np.transpose(self.rot_coord)[0]-np.transpose(self.rot_coord)[0][0], np.transpose(self.rot_coord)[1]-np.transpose(self.rot_coord)[1][0]] 
                 self.q2.put(data)
-            time.sleep(0.001)
-        self.q2.put("finished")
+            
+            # get accurate timing
+            delta_time = self.time[i+1] - self.time[i]
+            time.sleep(delta_time)
         print("[message] simulation is finished...")
 
 def testing():
@@ -101,6 +103,10 @@ def testing():
     print("[message] test is finished")
 
 if __name__ == "__main__":
+    print("Number of arguments: ", len(sys.argv), "arguments\n")
+    print("Argument List: ", str(sys.argv))
+    HOST = sys.argv[1]
+    PORT = int(sys.argv[2])
     request_queue = Queue()
     msg_queue = Queue()
     # creating objects of classes
