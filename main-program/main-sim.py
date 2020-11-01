@@ -44,7 +44,7 @@ class sockets(threading.Thread):
 class simulation(threading.Thread):
     def __init__(self,  width, height, t, q1, q2):
         threading.Thread.__init__(self)
-        self.data = pd.read_csv("trajectories/trajectory_1_fpg_out.txt", skiprows=11)
+        self.data = pd.read_csv("trajectories/trajectory_2_fpg_out.txt", skiprows=11)
         self.width = width
         self.height = height
         self.t = t

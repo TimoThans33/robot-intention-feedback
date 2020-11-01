@@ -1,10 +1,60 @@
 # robot-intention-feedback
 This repository includes the code usd for the bachelor thesis 'robot intention feedback' in the Delft Centre for Systems and Control.
 
-## Introduction
+## Getting started
+Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch
+```
+git clone https://github.com/TimoThans33/robot-intention-feedback.git
+```
+```
+git checkout DLP-Lightcrafter-2000
+```
+To run the examples we need to start an X11 server on the BeagleBone Black. On a computer with
+a desktop environment this is not necessary. 
+```
+sudo startx
+```
+Now you can SSH into the server / host computer passing -X (from the BeagleBone Black)
+```
+ssh -X username@192.168.7.1
+```
+Alternatively you can run natively on the BeagleBone black. But this has not been tested thoroughly. In this X server you can start any script you would like. For example a simple QT window.
+```
+python3 robot-intention-feedback/Qt-examples/example-window.py
+```
+This should get you started.
+
+## Main Program
+The goal of the main program is to project slick path's that the robot is following.
+
+### High level example
+We have opt to try out our solution in python. It is simulation in which the program reads a csv
+file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot.
+
+![trajectory sim](Images/robot-sim.png)
+![projection sim](Images/proj-sim.png)
+
+### Main Program Architecture
+![trajectory sim](Images/79183.jpg)
+This is the technical architecture. Would be nice to elaborate a little bit more on this.
+### Getting started 
+```
+make main-program
+```
+If you are not connected to a robot you can start the simulation. You do have to pass the correct ip-address and port. For example the localhost: 127.0.0.1.
+```
+python3 main-sim.py 127.0.0.1 8080
+```
+You can start rendering and connect to the simulation by passing the same ip-address
+and port.
+```
+./main-program 127.0.0.1 8080
+```
+
+## Other Examples
 X11 User Interface made with QT. The idea is to run the UI code on a server or Jetson TX2. The UI is projected by the DLP Lightcrafter 2000 by making use of the X11 protocol.
 
-## Dependecies
+### Dependecies
 On server (host computer)
 ```
 pip install PyQt5
@@ -20,29 +70,6 @@ According to Qt for Debian-base GNU/Linux systems we need to install a bunch of 
 ```
 ./QtInstallDependecies.sh
 ```
-
-## Getting started
-First clone this repository and change to the correct branch
-```
-git clone https://github.com/TimoThans33/robot-intention-feedback.git
-```
-```
-git checkout DLP-Lightcrafter-2000
-```
-To run the Qt-examples we need to start an X11 server on the BeagleBone Black.
-```
-sudo startx
-```
-Then you can SSH into the server / host computer passing -X (from the BeagleBone Black)
-```
-ssh -X username@192.168.7.1
-```
-From then you can start any script you would like. For example a simple QT window.
-```
-python3 robot-intention-feedback/Qt-examples/example-window.py
-```
-This should get you started.
-
 ## Qt-support
 For typical user interfaces we can utilize Qt. The python samples can be started using:
 ```
@@ -77,30 +104,5 @@ make openGL-example
 ```
 ```
 ./openGL-example
-```
-
-## Robot-simulation
-With the robot-simulation files we can simulate a trajectory of the robot without actually installing the projector on the robot.
-![trajectory sim](Images/robot-sim.png)
-![projection sim](Images/proj-sim.png)
-
-## Path projection
-We can forwarde the data from the simulation to openGL and the BeagleBone. This is done
-```
-openGL-examples/openGL-socket/main.cpp
-```
-You can compile this file with:
-```
-make openGL-JsonSocket
-```
-You can start the correct simulation. You do have to pass the correct ip-address and port.
-For example the localhost: 127.0.0.1.
-```
-python3 main-sim.py 127.0.0.1 8080
-```
-You can start our openGL program and connect to the simulation by passing the same ip-address
-and port.
-```
-./openGL-JsonSocket 127.0.0.1 8080
 ```
 
