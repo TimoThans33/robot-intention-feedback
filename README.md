@@ -55,11 +55,18 @@ According to Qt for Debian-base GNU/Linux systems we need to install a bunch of 
 ```
 
 ## Getting started
+First clone this repository and change to the correct branch
+```
+git clone https://github.com/TimoThans33/robot-intention-feedback.git
+```
+```
+git checkout DLP-Lightcrafter-2000
+```
 To run the Qt-examples we need to start an X11 server on the BeagleBone Black.
 ```
 sudo startx
 ```
-Then you can SSH into the server / host computer passing -X
+Then you can SSH into the server / host computer passing -X (from the BeagleBone Black)
 ```
 ssh -X username@192.168.7.1
 ```
@@ -105,4 +112,12 @@ make openGL-example
 ./openGL-example
 ```
 
+<<<<<<< HEAD
 >>>>>>> f844b777da67f8bca5f9ced71b111f127dac81b6
+=======
+## Robot-simulation
+With the robot-simulation files we can simulate a trajectory of the robot without actually installing the projector on the robot.
+![trajectory sim](Images/robot-sim.png)
+![projection sim](Images/proj-sim.png)
+
+>>>>>>> b29aa57c7e8b285721b0b74fde9da84f74ac8c61
