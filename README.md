@@ -84,3 +84,23 @@ With the robot-simulation files we can simulate a trajectory of the robot withou
 ![trajectory sim](Images/robot-sim.png)
 ![projection sim](Images/proj-sim.png)
 
+## Path projection
+We can forwarde the data from the simulation to openGL and the BeagleBone. This is done
+```
+openGL-examples/openGL-socket/main.cpp
+```
+You can compile this file with:
+```
+make openGL-JsonSocket
+```
+You can start the correct simulation. You do have to pass the correct ip-address and port.
+For example the localhost: 127.0.0.1.
+```
+python3 main-sim.py 127.0.0.1 8080
+```
+You can start our openGL program and connect to the simulation by passing the same ip-address
+and port.
+```
+./openGL-JsonSocket 127.0.0.1 8080
+```
+
