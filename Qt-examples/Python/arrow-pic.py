@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 
 class App(QWidget):
 

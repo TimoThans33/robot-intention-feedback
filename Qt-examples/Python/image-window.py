@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel
-from PyQt5.QtGui import QPixmap, QTransform
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import numpy as np 
 
 THETA =30
