@@ -1,0 +1,36 @@
+﻿<html>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
+    <div class="mermaid">
+        classDiagram
+        class Path Generation
+        class Robot Controller
+        class Processing
+        class sockets
+        class window
+        Processing <-- Path Generation
+        sockets <-- Processing
+        Processing <-- sockets
+        window <-- sockets : .json
+        Robot Controller <-- Path Generation
+        Processing : theta, x, y, velocity
+        Processing : time
+        Processing : kernel[width, height]
+        Processing : +void run(thread_id)
+        sockets : +char *buffer_pointer
+        sockets :  void init_socket()
+        sockets : void print_addr()
+        sockets : void create()
+        sockets : void make_connection()
+        sockets : void json_encode()
+        sockets : void run()
+        sockets : void cleanup()
+        window : struct GLdata
+        window : void init_window()
+        window : void json_parser()
+        window : void run()
+    </div>
+    </div>
+  </body>
+</html>

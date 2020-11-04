@@ -37,6 +37,8 @@ file with robot coordinates. Our program then transforms these coordinates to th
 ### Main Program Architecture
 ![trajectory sim](Images/79183.jpg)
 This is the technical architecture. Would be nice to elaborate a little bit more on this.
+graph TD
+    Start --> Stop
 ### Getting started 
 ```
 make main-program
