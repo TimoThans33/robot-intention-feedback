@@ -1,6 +1,9 @@
 # robot-intention-feedback
 This repository includes the code usd for the bachelor thesis 'robot intention feedback' in the Delft Centre for Systems and Control.
-
+Documentation for this project can be found here:
+```
+https://timothans33.github.io/robot-intention-feedback/
+```
 ## Getting started
 Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch
 ```
