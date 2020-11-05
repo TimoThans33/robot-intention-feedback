@@ -7,53 +7,225 @@ div.absoluter1 {
     width: 200px;
     height: 100px;
     left: 25px;
-    top: 300px;
+    top: 400px;
 }
 div.absoluter0 {
+    position: absolute;
+    top: 200px;
+    width: 110px;
+    height: 20px;
+    left: 25px;
+    text-align: center;
+}
+div.absoluter2 {
     position: absolute;
     top: 100px;
     width: 110px;
     height: 20px;
-    left: 25px;
+    left: 300px;
+    text-align: center;
+}
+div.absoluter3 {
+    position: absolute;
+    top: 170px;
+    width: 110px;
+    height: 50px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter4 {
+    position: absolute;
+    top: 240px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter5 {
+    position: absolute;
+    top: 320px;
+    width: 110px;
+    height: 110px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter6 {
+    position: absolute;
+    top: 390px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter7 {
+    position: absolute;
+    top: 460px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter8 {
+    position: absolute;
+    top: 200px;
+    left: 530px;
+    text-align: center;
+}
+div.absoluter9 {
+  position: absolute;
+  top: 200px;
+  left: 730px;
+  text-align: center;
+}
+div.absoluter10 {
+  position: absolute;
+  top: 100px;
+  left: 950px;
+  text-align: center;
+}
+div.absoluter11 {
+  position: absolute;
+  top: 170px;
+  left: 920px;
+  text-align: center;
+}
+div.absoluter12 {
+  position: absolute;
+  top: 240px;
+  left: 920px;
+  text-align: center;
+}
+div.absoluter13 {
+  position: absolute;
+  top: 310px;
+  left: 920px;
+  text-align: center;
 }
 #rcorners1 {
   border-radius: 25px;
-  background: #E64623;
+  background: #851f09;
   padding: 20px; 
   width: 110px;
-  height: 20px;  
-}
-
-#rcorners2 {
-  border-radius: 25px;
-  border: 2px solid #E64623;
-  padding: 20px; 
-  width: 110px;
-  height: 20px;  
+  height: 20px;
 }
 
 #rcorners3 {
+  border-radius: 25px;
+  border: 2px solid #0066cc;
+  padding: 20px; 
+  width: 170px;
+  height: 20px;  
+}
+
+#rcorners4{
+  border-radius: 25px;
+  border: 2px solid #0066cc;
+  padding: 20px; 
+  width: 170px;
+  height: 30px; 
+}
+#rcorners2 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px; 
+  width: 110px;
+  height: 20px;  
+}
+#rcorners5 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px; 
+  width: 70px;
+  height: 20px;  
+}
+#rcorners6 {
   border-radius: 25px;
   background: url(paper.gif);
   background-position: left top;
   background-repeat: repeat;
   padding: 20px; 
-  width: 200px;
-  height: 150px;  
+  width: 170px;
+  height: 10px;  
 }
 </style>
 </head>
 <body>
 
-<h1>The border-radius Property</h1>
+<h1>Software Architecture</h1>
 
-<p>Rounded corners for an element with a specified background color:</p>
+<p>Diagram of the software architecture used for the robot intention feedback project.</p>
 <div class="absoluter0">
-    <p id="rcorners1">Path Generation</p>
+    <p id="rcorners1">Robot Controller</p>
 </div>
 <div class="absoluter1">
-    <p id="rcorners1">Motor Controller</p>
+    <p id="rcorners1">Path Generator</p>
+</div>
+<div class="absoluter2">
+  <p id="rcorners2">Processing</p>
+</div>
+<div class="absoluter3">
+  <p id="rcorners3">read CSV data</p>
+</div>
+<div class="absoluter4">
+  <p id="rcorners4">rotate kernel to world frame</p>
+</div>
+<div class="absoluter5">
+  <p id="rcorners3">get coordinates in kernel</p>
+</div>
+<div class="absoluter6">
+  <p id="rcorners3">rotate coordinates to robot</p>
+</div>
+<div class="absoluter7">
+  <p id="rcorners3">parse coordinates to json</p>
+</div>
+<div class="absoluter8">
+  <p id="rcorners2">socket server</p>
+</div>
+<div class="absoluter9">
+  <p id="rcorners2">socket client</p>
+</div>
+<div class="absoluter10">
+  <p id="rcorners2">window render</p>
+</div>
+<div class="absoluter11">
+  <p id="rcorners3">initiate x window</p>
+</div>
+<div class="absoluter12">
+  <p id="rcorners3">parse json from socket </p>
+</div>
+<div class="absoluter13">
+  <p id="rcorners3">draw array on the window</p>
 </div>
 
+<canvas id="myCanvas" width="2000" height="1000"></canvas>
+<script>
+  var canvas = document.getElementById('myCanvas');
+  var context = canvas.getContext('2d');
+  
+  context.beginPath();
+  context.moveTo(90, 280);
+  context.bezierCurveTo(160, 240, 90, 200, 90, 170);
+
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(90, 280);
+  context.bezierCurveTo(260, 280, 90, 30, 280, 30);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(370, 430);
+  context.bezierCurveTo(590, 430, 590, 430, 590, 170);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(590, 90);
+  context.bezierCurveTo(590, 90, 690, 60, 790, 90);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(790, 170);
+  context.bezierCurveTo(790, 170, 690, 200, 590, 170);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(880, 130);
+  context.bezierCurveTo(900, 130, 880, 170, 900, 170);
+  context.stroke();
+</script>
 </body>
 </html>
