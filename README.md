@@ -1,10 +1,7 @@
 # robot-intention-feedback
 This repository includes the code usd for the bachelor thesis 'robot intention feedback' in the Delft Centre for Systems and Control.
-Documentation for this project can be found here:
-```
-https://timothans33.github.io/robot-intention-feedback/
-```
-## Getting started
+Documentation for this project can be found here: [Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
+
 Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch
 ```
 git clone https://github.com/TimoThans33/robot-intention-feedback.git
@@ -12,6 +9,7 @@ git clone https://github.com/TimoThans33/robot-intention-feedback.git
 ```
 git checkout DLP-Lightcrafter-2000
 ```
+## Getting started BeagleBone
 To run the examples we need to start an X11 server on the BeagleBone Black. On a computer with
 a desktop environment this is not necessary. 
 ```
@@ -25,30 +23,18 @@ Alternatively you can run natively on the BeagleBone black. But this has not bee
 ```
 python3 robot-intention-feedback/Qt-examples/example-window.py
 ```
-This should get you started.
 
 ## Main Program
 The goal of the main program is to project slick path's that the robot is following. For a complete description of the main program you should check out the website of this project:
 [Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
 
-### High level example
-We have opt to try out our solution in python. It is simulation in which the program reads a csv
-file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot. Running this program will give you an idea of what path the robot will follow.
-
-```
-python3 plot-path.py
-```
-### Main Program Architecture
-![trajectory sim](Images/79183.jpg)
-This is briefly the software architecture. But again I would refer you to the project website.
-[Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
-### Getting started 
+### Getting started main-program
 First install the dependecies.
 ```
 pip install pandas, numpy
 sudo apt-get install libjson-dev-c
 ```
-compile the main programe with a Makefile.
+compile the main program with a Makefile.
 ```
 make main-program
 ```
@@ -61,6 +47,18 @@ and port. This should get you started.
 ```
 ./main-program 127.0.0.1 8080
 ```
+### High level example
+We have opt to try out our solution in python. It is simulation in which the program reads a csv
+file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot. Running this program will give you an idea of what path the robot will follow.
+
+```
+python3 plot-path.py
+```
+### Main Program Architecture
+![trajectory sim](Images/79183.jpg)
+This is briefly the software architecture. But again I would refer you to the project website.
+[Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
+
 ## Other Examples
 X11 User Interface made with QT. The idea is to run the UI code on a server or Jetson TX2. The UI is projected by the DLP Lightcrafter 2000 by making use of the X11 protocol.
 
@@ -80,7 +78,7 @@ According to Qt for Debian-base GNU/Linux systems we need to install a bunch of 
 ```
 ./QtInstallDependecies.sh
 ```
-## Qt-support
+### Qt-support
 For typical user interfaces we can utilize Qt. The python samples can be started using:
 ```
 python3 image-window.py
@@ -99,7 +97,7 @@ This will create a run script
 ```
 For some reason the Qt windows that are created on and shown on the projector have a lot of lag and crash all te time. I am not sure why this is.
 
-## X-windows support
+### X-windows support
 X-windows is the GUI driver closest to the linux kernel. It is a bit of a pain to program in, but it is much more reliable and faster on embedded devices like our BeagleBone Black. For convenience I made a small make file. Simply in the repository do
 ```
 make
@@ -107,7 +105,7 @@ make
 ```
 ./X-example
 ```
-## OpenGL support
+### OpenGL support
 OpenGL is an API for making fancy graphics. It consists of a complex pipeline that makes efficient use of the CPU and GPU on the host computer. For the examples I have used the X-windows drivers as this was much more reliable.
 ```
 make openGL-example
