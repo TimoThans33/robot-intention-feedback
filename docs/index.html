@@ -250,7 +250,7 @@ div.absoluter13 {
   width: 70%;
   border-left: none;
   border-right: none;
-  height: 300px;
+  height: 350px;
   top: 650px;
   left: 30px;
   display: none;
@@ -310,7 +310,7 @@ div.absoluter13 {
   width: 70%;
   border-left: none;
   border-right: none;
-  height: 300px;
+  height: 800px;
   top: 650px;
   left: 30px;
   display: none;
@@ -366,21 +366,58 @@ div.absoluter13 {
 </div>
 <div id="processing" class="processing-content">
   <h3>Processing</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>robot frame to world frame</li>
+    <li>Discuss the (orange) kernel</li>
+  </ul>
+  <img src="Figures/proj-sim.png" alt="processing result" width="200" height="200">
 </div>
 <div id="pathgen" class="pathgen-content">
   <h3>Path Generator</h3>
+  <p>This is done by Prime Vision</p>
+  <img src="Figures/robot-sim.png" alt="processing result" width="220" height="230">
 </div>
 <div id="socketser" class="socketser-content">
   <h3>Socket Server</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>Json encode</li>
+    <li>Socket programming api (specifically in python)</li>
+    <li>TCP communication theory</li>
+    <li>How this would work in our application</li>
+    <li>message queue python</li>
+  </ul>
+
 </div>
 <div id="socketcli" class="socketcli-content">
   <h3>Socket Client</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>Json decode</li>
+    <li>Socket programming in C</li>
+    <li>Non blocking select() function in linux</li>
+    <li>pushing back to dynamic memory</li>
+  </ul>
 </div>
 <div id="robotcon" class="robco-content">
   <h3>Robot Controller</h3>
+  <p>This is done by Prime Vision</p>
 </div>
 <div id="windowren" class="windowren-content">
   <h3>Window Rendering</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>What is the X-server in Linux?</li>
+    <li>What is the OpenGL api and how do the pipelines work (what are some of the abstractions being made</li>
+    <li>What is the FPS we can reach? What is the allocated dynamic memory?</li>
+    <li>Why did we choose openGL and X-server</li>
+  </ul>
+  <video width="320" height="240" controls>
+    <source src="Videos/result-video.mp4" type="video/mp4">
+    <source src="movie.ogg" type="video/ogg">
+    Your browser does not support the video tag.
+  </video>
 </div>
 <canvas id="myCanvas" width="2000" height="1000"></canvas>
 <script>

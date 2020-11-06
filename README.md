@@ -28,21 +28,27 @@ python3 robot-intention-feedback/Qt-examples/example-window.py
 This should get you started.
 
 ## Main Program
-The goal of the main program is to project slick path's that the robot is following.
+The goal of the main program is to project slick path's that the robot is following. For a complete description of the main program you should check out the website of this project:
+[Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
 
 ### High level example
 We have opt to try out our solution in python. It is simulation in which the program reads a csv
-file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot.
+file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot. Running this program will give you an idea of what path the robot will follow.
 
-![trajectory sim](Images/robot-sim.png)
-![projection sim](Images/proj-sim.png)
-
+```
+python3 plot-path.py
+```
 ### Main Program Architecture
 ![trajectory sim](Images/79183.jpg)
-This is the technical architecture. Would be nice to elaborate a little bit more on this.
-graph TD
-    Start --> Stop
+This is briefly the software architecture. But again I would refer you to the project website.
+[Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
 ### Getting started 
+First install the dependecies.
+```
+pip install pandas, numpy
+sudo apt-get install libjson-dev-c
+```
+compile the main programe with a Makefile.
 ```
 make main-program
 ```
@@ -51,11 +57,10 @@ If you are not connected to a robot you can start the simulation. You do have to
 python3 main-sim.py 127.0.0.1 8080
 ```
 You can start rendering and connect to the simulation by passing the same ip-address
-and port.
+and port. This should get you started.
 ```
 ./main-program 127.0.0.1 8080
 ```
-
 ## Other Examples
 X11 User Interface made with QT. The idea is to run the UI code on a server or Jetson TX2. The UI is projected by the DLP Lightcrafter 2000 by making use of the X11 protocol.
 

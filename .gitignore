@@ -1,2 +1,8 @@
 nhd_test.mp4
 Figures/*
+main-program/main-program
+Qt-example/C++/Qt-example.o
+Qt-example/C++/Qt-example
+openGL-examples/openGL-array
+openGL-examples/openGL-JsonSocket
+Xwindow-examples/openGL-example
