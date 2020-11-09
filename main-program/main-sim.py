@@ -95,12 +95,6 @@ class simulation(threading.Thread):
             time.sleep(delta_time)
         print("[message] simulation is finished...")
 
-def testing():
-    i = 0
-    while i<100:
-        print("test",i)
-        i+=1
-    print("[message] test is finished")
 
 if __name__ == "__main__":
     print("Number of arguments: ", len(sys.argv), "arguments\n")

@@ -17,4 +17,13 @@ Test-Figures/*
 =======
 nhd_test.mp4
 Figures/*
+<<<<<<< HEAD
 >>>>>>> f844b777da67f8bca5f9ced71b111f127dac81b6
+=======
+main-program/main-program
+Qt-example/C++/Qt-example.o
+Qt-example/C++/Qt-example
+openGL-examples/openGL-array
+openGL-examples/openGL-JsonSocket
+Xwindow-examples/openGL-example
+>>>>>>> 88599191f0c544945c790ab6542fc33149eda0dc

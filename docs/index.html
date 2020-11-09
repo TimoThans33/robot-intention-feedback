@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style> 
+div.absoluter1 {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    left: 25px;
+    top: 400px;
+}
+.absoluter1 #rcorners1 {
+  border-radius: 25px;
+  background: #851f09;
+  padding: 20px; 
+  width: 110px;
+  height: 20px;
+}
+.absoluter1:hover #rcorners1 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+
+div.absoluter0 {
+    position: absolute;
+    top: 200px;
+    width: 110px;
+    height: 20px;
+    left: 25px;
+    text-align: center;
+}
+.absoluter0 #rcorners1 {
+  border-radius: 25px;
+  background: #851f09;
+  padding: 20px; 
+  width: 110px;
+  height: 20px;
+}
+.absoluter0:hover #rcorners1 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+div.absoluter2 {
+    position: absolute;
+    top: 100px;
+    width: 110px;
+    height: 20px;
+    left: 300px;
+    text-align: center;
+    cursor: pointer;
+}
+.absoluter2 button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.absoluter2 #rcorners2 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px; 
+  width: 110px;
+  height: 20px;  
+}
+
+.absoluter2:hover #rcorners2 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+
+.absoluter2.active {
+  background-color: #ccc;
+}
+
+div.absoluter3 {
+    position: absolute;
+    top: 170px;
+    width: 110px;
+    height: 50px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter4 {
+    position: absolute;
+    top: 240px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter5 {
+    position: absolute;
+    top: 320px;
+    width: 110px;
+    height: 110px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter6 {
+    position: absolute;
+    top: 390px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter7 {
+    position: absolute;
+    top: 460px;
+    left: 270px;
+    text-align: center;
+}
+div.absoluter8 {
+    position: absolute;
+    top: 200px;
+    left: 530px;
+    text-align: center;
+}
+.absoluter8 #rcorners2 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+
+.absoluter8:hover #rcorners2 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+
+div.absoluter9 {
+  position: absolute;
+  top: 200px;
+  left: 730px;
+  text-align: center;
+}
+.absoluter9 #rcorners2 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+.absoluter9:hover #rcorners2 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+div.absoluter10 {
+  position: absolute;
+  top: 100px;
+  left: 950px;
+  text-align: center;
+}
+.absoluter10 #rcorners2 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+.absoluter10:hover #rcorners2 {
+  border-radius: 25px;
+  background: #ddd;
+  padding: 20px;
+  width: 110px;
+  height: 20px;
+}
+div.absoluter11 {
+  position: absolute;
+  top: 170px;
+  left: 920px;
+  text-align: center;
+}
+div.absoluter12 {
+  position: absolute;
+  top: 240px;
+  left: 920px;
+  text-align: center;
+}
+div.absoluter13 {
+  position: absolute;
+  top: 310px;
+  left: 920px;
+  text-align: center;
+}
+#rcorners1 {
+  border-radius: 25px;
+  background: #851f09;
+  padding: 20px; 
+  width: 110px;
+  height: 20px;
+}
+
+#rcorners3 {
+  border-radius: 25px;
+  border: 2px solid #0066cc;
+  padding: 20px; 
+  width: 170px;
+  height: 20px;  
+}
+
+#rcorners4{
+  border-radius: 25px;
+  border: 2px solid #0066cc;
+  padding: 20px; 
+  width: 170px;
+  height: 30px; 
+}
+
+#rcorners5 {
+  border-radius: 25px;
+  background: #0066cc;
+  padding: 20px; 
+  width: 70px;
+  height: 20px;  
+}
+#rcorners6 {
+  border-radius: 25px;
+  background: url(paper.gif);
+  background-position: left top;
+  background-repeat: repeat;
+  padding: 20px; 
+  width: 170px;
+  height: 10px; 
+}
+.processing-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 350px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+.pathgen-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 300px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+.robco-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 300px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+.socketser-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 300px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+.socketcli-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 300px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+.windowren-content {
+  position: absolute;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  border-right: none;
+  height: 800px;
+  top: 650px;
+  left: 30px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<h1>Software Architecture</h1>
+
+<p>Diagram of the software architecture used for the robot intention feedback project.</p>
+<div class="absoluter0" onmouseover="openRobCo()">
+    <p id="rcorners1">Robot Controller</p>
+</div>
+<div class="absoluter1" onmouseover="openPathGen()">
+    <p id="rcorners1">Path Generator</p>
+</div>
+<div class="absoluter2" onmouseover="openProcessing()">
+  <p id="rcorners2">Processing</p>
+</div>
+<div class="absoluter3">
+  <p id="rcorners3">read CSV data</p>
+</div>
+<div class="absoluter4">
+  <p id="rcorners4">rotate kernel to world frame</p>
+</div>
+<div class="absoluter5">
+  <p id="rcorners3">get coordinates in kernel</p>
+</div>
+<div class="absoluter6">
+  <p id="rcorners3">rotate coordinates to robot</p>
+</div>
+<div class="absoluter7">
+  <p id="rcorners3">parse coordinates to json</p>
+</div>
+<div class="absoluter8" onmouseover="openSocketSer()">
+  <p id="rcorners2">socket server</p>
+</div>
+<div class="absoluter9" onmouseover="openSocketCli()" >
+  <p id="rcorners2">socket client</p>
+</div>
+<div class="absoluter10" onmouseover="openWindowRen()">
+  <p id="rcorners2">window render</p>
+</div>
+<div class="absoluter11">
+  <p id="rcorners3">initiate x window</p>
+</div>
+<div class="absoluter12">
+  <p id="rcorners3">parse json from socket </p>
+</div>
+<div class="absoluter13">
+  <p id="rcorners3">draw array on the window</p>
+</div>
+<div id="processing" class="processing-content">
+  <h3>Processing</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>robot frame to world frame</li>
+    <li>Discuss the (orange) kernel</li>
+  </ul>
+  <img src="Figures/proj-sim.png" alt="processing result" width="200" height="200">
+</div>
+<div id="pathgen" class="pathgen-content">
+  <h3>Path Generator</h3>
+  <p>This is done by Prime Vision</p>
+  <img src="Figures/robot-sim.png" alt="processing result" width="220" height="230">
+</div>
+<div id="socketser" class="socketser-content">
+  <h3>Socket Server</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>Json encode</li>
+    <li>Socket programming api (specifically in python)</li>
+    <li>TCP communication theory</li>
+    <li>How this would work in our application</li>
+    <li>message queue python</li>
+  </ul>
+
+</div>
+<div id="socketcli" class="socketcli-content">
+  <h3>Socket Client</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>Json decode</li>
+    <li>Socket programming in C</li>
+    <li>Non blocking select() function in linux</li>
+    <li>pushing back to dynamic memory</li>
+  </ul>
+</div>
+<div id="robotcon" class="robco-content">
+  <h3>Robot Controller</h3>
+  <p>This is done by Prime Vision</p>
+</div>
+<div id="windowren" class="windowren-content">
+  <h3>Window Rendering</h3>
+  <p>Things to discuss:</p>
+  <ul>
+    <li>What is the X-server in Linux?</li>
+    <li>What is the OpenGL api and how do the pipelines work (what are some of the abstractions being made</li>
+    <li>What is the FPS we can reach? What is the allocated dynamic memory?</li>
+    <li>Why did we choose openGL and X-server</li>
+  </ul>
+  <video width="320" height="240" controls>
+    <source src="Videos/result-video.mp4" type="video/mp4">
+    <source src="movie.ogg" type="video/ogg">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<canvas id="myCanvas" width="2000" height="1000"></canvas>
+<script>
+  var x = document.getElementById("processing");
+  var y = document.getElementById("pathgen");
+  var z = document.getElementById("socketser");
+  var q = document.getElementById("socketcli");
+  var p = document.getElementById("robotcon");
+  var r = document.getElementById("windowren");
+  function openProcessing() {
+    x.style.display = "block";
+    y.style.display = "none";
+    z.style.display = "none";
+    q.style.display = "none";
+    p.style.display = "none";
+    r.style.display = "none";
+  }
+  function openRobCo(){
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "none";
+    q.style.display = "none";
+    p.style.display = "block";
+    r.style.display = "none";
+  }
+  function openWindowRen() {
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "none";
+    q.style.display = "none";
+    p.style.display = "none";
+    r.style.display = "block";
+  }
+  function openPathGen() {
+    x.style.display = "none";
+    y.style.display = "block";
+    z.style.display = "none";
+    q.style.display = "none";
+    p.style.display = "none";
+    r.style.display = "none";
+  }
+  function openSocketSer() {
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "block";
+    q.style.display = "none";
+    p.style.display = "none";
+    r.style.display = "none";
+  }
+  function openSocketCli() {
+    x.style.display = "none";
+    y.style.display = "none";
+    z.style.display = "none";
+    q.style.display = "block";
+    p.style.display = "none";
+    r.style.display = "none";
+  }
+
+  var canvas = document.getElementById('myCanvas');
+  var context = canvas.getContext('2d');
+  
+  context.beginPath();
+  context.moveTo(90, 280);
+  context.bezierCurveTo(160, 240, 90, 200, 90, 170);
+
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(90, 280);
+  context.bezierCurveTo(260, 280, 90, 30, 280, 30);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(370, 430);
+  context.bezierCurveTo(590, 430, 590, 430, 590, 170);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(590, 90);
+  context.bezierCurveTo(590, 90, 690, 60, 790, 90);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(790, 170);
+  context.bezierCurveTo(790, 170, 690, 200, 590, 170);
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(880, 130);
+  context.bezierCurveTo(900, 130, 880, 170, 900, 170);
+  context.stroke();
+</script>
+</body>
+</html>
