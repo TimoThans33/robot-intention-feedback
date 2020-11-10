@@ -1,6 +1,7 @@
 #include "opengl.h"
 
 
+
 struct Data
 {
     /* data */
@@ -12,7 +13,7 @@ std::vector< Data > data;
 
 float array_color[] = 
 {
-    1.0, 0.0, 0.0, // red
+    0.0, 1.0, 0.0, // red
 };
 
 void drawArray(void)
@@ -40,7 +41,7 @@ void drawArray(void)
     glVertexPointer(2, GL_FLOAT, sizeof(Data), &data[0].x );
     glColorPointer(3, GL_FLOAT, sizeof(Data), &data[0].r);
     glPointSize( 3.0 );
-    glDrawArrays(GL_LINE_LOOP, 0, data.size());
+    glDrawArrays(GL_LINE_STRIP, 0, data.size());
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
