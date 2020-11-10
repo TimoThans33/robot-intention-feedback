@@ -13,7 +13,7 @@ std::vector< Data > data;
 
 float array_color[] = 
 {
-    0.0, 1.0, 0.0, // red
+    1.0, 0.0, 0.0, // red
 };
 
 void drawArray(void)
