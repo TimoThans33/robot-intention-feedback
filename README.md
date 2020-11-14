@@ -63,6 +63,37 @@ python3 plot-path.py
 This is briefly the software architecture. But again I would refer you to the project website.
 [Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
 
+## Resources
+```
+Hands-On Network Programming with C: Learn Socket Programming in C
+```
+Learn socket programming in C and write secure and optimized network code. Specifically section 1 >> Getting to Grips with Socket APIs >> our first program and An in-Depth overview of TCP Connections >> TCP client code & TCP server code.
+```
+openGL SuperBible
+```
+Extremely usefull to get some context of graphics and the gpu. But definitely too advanced. Does not include any sample code.
+
+Programming OpenGL in Linux: X11 source code
+```
+https://www.khronos.org/opengl/wiki/Programming_OpenGL_in_Linux:_GLX_and_Xlib
+```
+```
+https://learnopengl.com/Introduction
+```
+nice to see some real-life examples of openGL. But generally not very usefull as we are 1. not on windows and 2. not on a desktop.
+
+Getting started with object oriented programming:
+```
+https://www.w3schools.com/cpp/cpp_oop.asp
+https://www.geeksforgeeks.org/object-oriented-programming-in-cpp/
+```
+The idea is that you write code that can be used in different projects. For example I have used the socket-dev.cpp and socket-dev.h in many programs. Besides that it makes the code more efficient and safer it is also better readable (or at least is should be).
+In general you should not have to worry about the classes, only use them.
+
+I have found GLFW which is suitable for embedded linux. This openGL framework will help to make the program less complex when we want to use shaders. Here is a very clear and simple example:
+```
+https://www.glfw.org/docs/latest/quick.html
+```
 ## Other Examples
 X11 User Interface made with QT. The idea is to run the UI code on a server or Jetson TX2. The UI is projected by the DLP Lightcrafter 2000 by making use of the X11 protocol.
 
