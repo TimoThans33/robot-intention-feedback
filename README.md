@@ -34,11 +34,15 @@ First install the dependecies.
 pip install pandas, numpy
 sudo apt-get install libjson-dev-c
 ```
-compile the main program with a Makefile.
+If you are new to openGL more dependencies are necessary. (xlib.h, gl.h, glu.h respectively) 
+```
+sudo apt-get install libx11-dev, mesa-common-dev, libglu1-mesa-dev
+```
+compile the main program with a Makefile. Make sure you navigate with the cd commant in the terminal to the right depository (the one that includes the program you want to compile)
 ```
 make main-program
 ```
-If you are not connected to a robot you can start the simulation. You do have to pass the correct ip-address and port. For example the localhost: 127.0.0.1.
+If you are not connected to a robot you can start the simulation. You do have to pass the correct ip-address and port. For example the localhost: 127.0.0.1. (main-program and main-sim.py should both be runned in their own terminal, start with the sim which contains coordinates for the main-program to run.
 ```
 python3 main-sim.py 127.0.0.1 8080
 ```
