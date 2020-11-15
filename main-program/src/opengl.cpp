@@ -140,3 +140,18 @@ void window::run(void){
     }
     */
 }
+
+void window::get_shader(void)
+{
+    std::ifstream fs("src/shader/basic.frag");
+    std::string fs_contents((std::istreambuf_iterator<char>(fs)),
+        std::istreambuf_iterator<char>());
+    static const char* fragment_shader_text = fs_contents.c_str();
+    std::ifstream vs("src/shader/basic.vert");
+    std::string vs_contents((std::istreambuf_iterator<char>(vs)),
+        std::istreambuf_iterator<char>());
+    static const char* vertex_shader_text = vs_contents.c_str();
+    /* give some feedback to the user */
+    std::cout<<"using vertex shader : \n"<<vertex_shader_text<<std::endl;
+    std::cout<<"using fragment shader : \n"<<fragment_shader_text<<std::endl;
+}

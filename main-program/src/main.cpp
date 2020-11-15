@@ -17,7 +17,8 @@ int main(int argc, char* argv[]){
         // initiate the communication with the simulation
         socket.init_socket();
         render.init_window();
-
+        /* read the user defined shader program */
+        render.get_shader();
         socket.print_addr();
         socket.create();
         socket.make_connection();
