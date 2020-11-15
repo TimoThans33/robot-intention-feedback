@@ -3,12 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <X11/X.h> // will be included by Xlib.h
-#include <X11/Xlib.h>
 
-#include <GL/gl.h> // will be included by glx.h
-#include <GL/glx.h>
-#include <GL/glu.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include "linmath.h"
 
 #include <vector>
 #include <json-c/json.h>
@@ -18,17 +17,11 @@
 #include <string.h>
 #include <fstream>
 
-class window{
+class GL{
+    GLFWwindow* window;
+    GLuint vertex_buffer, vertex_shader, fragment_shader, program;
+    GLint mvp_location, vpos_location, vcol_location;
     public:
-        Display *dpy;
-        Window root;
-        XVisualInfo *vi;
-        Colormap cmap;
-        XSetWindowAttributes swa;
-        Window win;
-        GLXContext glc;
-        XWindowAttributes gwa;
-        XEvent xev;
         // json declerations
         struct json_object *parsed_json;
         struct json_object *x;
@@ -37,11 +30,9 @@ class window{
         struct json_object *y_id;
 
         size_t data_points;
-        GLint att[5] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
         void init_window(void);
         void json_parser(char *socket_data);
-        void run(void);
-        void get_shader(void);
+        void draw(void);
+        void compile_shader(void);
 };
-
 #endif

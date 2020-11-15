@@ -1,7 +1,6 @@
 #include "opengl.h"
 
-
-
+/* construct the VBO: vertex buffer object */
 struct Data
 {
     /* data */
@@ -16,79 +15,81 @@ float array_color[] =
     1.0, 0.0, 0.0, // red
 };
 
-void drawArray(void)
+/* Setting an error callback */
+static void error_callback(int error, const char* description)
 {
+    fprintf(stderr, "Error: %s\n", description);
+}
+
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void GL::draw(void)
+{
+    float ratio;
+    int width, height;
+    mat4x4 m, p, mvp;
+
+    glfwGetFramebufferSize(window, &width, &height);
+    ratio = width / (float) height;
+
+    /* much nicer function for rescaling compared to glOrtho */
+    glViewport(0, 0, width, height);
+    
     glClearColor(1.0, 1.0, 1.0, 1.0);
+    
+    /* in the future we will want GL_DEPTH_BUFFER_BIT (delete geometry behind user) */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
+    /* some basic matrix multiplications from linmath.h (currently zero angle) */
+    mat4x4_identity(m);
+    mat4x4_rotate_Z(m, m, 0.0);
+    mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+    mat4x4_mul(mvp, p, m);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    /* link to the shader */
+    glUseProgram(program);
+    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+    glDrawArrays(GL_LINE_STRIP, 0, 3);
 
-    // We need to enable access to RAM where the vertex array is stored
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-    /*
-    std::cout<<"data.size = "<<data.size()<<std::endl;
-    for (int i=0; i<data.size(); i++){
-        std::cout<<"x = "<<data[i].x<<std::endl;
-        std::cout<<"y = "<<data[i].y<<std::endl;
-    }
-    */
-    glVertexPointer(2, GL_FLOAT, sizeof(Data), &data[0].x );
-    glColorPointer(3, GL_FLOAT, sizeof(Data), &data[0].r);
-    glPointSize( 3.0 );
-    glDrawArrays(GL_LINE_STRIP, 0, data.size());
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-    glFlush();
+    /* convenient glfw functions for updating window and getting window input events */
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+    /* check whethert user wants to close the window */
+    if (glfwWindowShouldClose(window))
+        throw;
 }
 
-void window::init_window(void){
-    // Graphical output will be sent to the computer on which it is executed
-    dpy = XOpenDisplay(NULL);
+/* some basic window creation, glfw makes this very easy */
+void GL::init_window(void){
+    glfwSetErrorCallback(error_callback);
 
-    if(dpy == NULL){
-        std::cout<<"\n\t cannot connect to X server\n\n"<<std::endl;
+    if (!glfwInit())
         throw;
+    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+    /* change here the width & height accordingly */
+    window = glfwCreateWindow(640, 320, "robot-intention-feedback", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
     }
 
-    // The root window is the window in which our window is bounded by
-    root = DefaultRootWindow(dpy);
+    glfwSetKeyCallback(window, key_callback);
 
-    // Configure OpenGL capabilities
-    vi = glXChooseVisual(dpy, 0, att);
-
-    if(vi == NULL){
-        std::cout<<"\n no appropriate visual found\n" << std::endl;
-        throw;
-    }
-    else{
-        printf("\n\t visual %p selected \n", (void *)vi->visualid);
-    }
-    // Create a colormap for the window
-    cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-
-    // This tells the X that the colormap we created before shall be used for the window
-    swa.colormap = cmap;
-    swa.event_mask = ExposureMask | KeyPressMask;
-
-    // Here we create the window
-    win = XCreateWindow(dpy, root, 0, 0, 640, 360, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
-
-    XMapWindow(dpy, win);
-    // render the opengl pipeline on the x window
-    glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
-    glXMakeCurrent(dpy, win, glc);
-
-    glEnable(GL_DEPTH_TEST);
+    glfwMakeContextCurrent(window);
+    gladLoadGL();
+    glfwSwapInterval(1);
 }
 
-void window::json_parser(char *socket_data){
+/* json parser for incoming message via the network */
+void GL::json_parser(char *socket_data){
     data.clear();
 
     parsed_json = json_tokener_parse(socket_data);
@@ -123,26 +124,10 @@ void window::json_parser(char *socket_data){
     std::cout<<"------------------"<<std::endl;
 }
 
-void window::run(void){
-    // XNextEvent(dpy, &xev);
-
-    XGetWindowAttributes(dpy, win, &gwa);
-    glViewport(0, 0, gwa.width, gwa.height);
-    drawArray();
-    glXSwapBuffers(dpy, win);
-    /*
-    if(xev.type == KeyPress){
-        glXMakeCurrent(dpy, None, NULL);
-        glXDestroyContext(dpy, glc);
-        XDestroyWindow(dpy, win);
-        XCloseDisplay(dpy);
-        exit(0);
-    }
-    */
-}
-
-void window::get_shader(void)
+/* compile the defined shaders in basic.vert and basic.frag */
+void GL::compile_shader(void)
 {
+    /* use fstream to read data from file into array */
     std::ifstream fs("src/shader/basic.frag");
     std::string fs_contents((std::istreambuf_iterator<char>(fs)),
         std::istreambuf_iterator<char>());
@@ -154,4 +139,31 @@ void window::get_shader(void)
     /* give some feedback to the user */
     std::cout<<"using vertex shader : \n"<<vertex_shader_text<<std::endl;
     std::cout<<"using fragment shader : \n"<<fragment_shader_text<<std::endl;
+    /* creates and initializes a buffer object's data store */
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Data), &data[0].x, GL_STATIC_DRAW );
+    /* creating the vertex shader */
+    vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
+    glCompileShader(fragment_shader);
+    /* creating the fragment shader */
+    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
+    glCompileShader(fragment_shader);
+    /* link the shaders to the program object (in this context a program is an executable file on the GPU) */
+    program = glCreateProgram();
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+    glLinkProgram(program);
+
+    mvp_location = glGetUniformLocation(program, "MVP");
+    vpos_location = glGetAttribLocation(program, "vPos");
+    vcol_location = glGetAttribLocation(program, "vCol");
+
+    glEnableVertexAttribArray(vpos_location);
+    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) 0);
+
+    glEnableVertexAttribArray(vcol_location);
+    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) (sizeof(float) * 2));
 }

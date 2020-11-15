@@ -13,19 +13,21 @@ int main(int argc, char* argv[]){
         char *buffer_pointer;
 
         socket_programming socket(argc, argv);
-        window render;
-        // initiate the communication with the simulation
+        GL gl;
+        /* initiate the communication with the simulation */
         socket.init_socket();
-        render.init_window();
+        /* initiate the window */
+        gl.init_window();
         /* read the user defined shader program */
-        render.get_shader();
+        gl.compile_shader();
+        /* socket connections */
         socket.print_addr();
         socket.create();
         socket.make_connection();
         while(1){
             buffer_pointer = socket.run();
-            render.json_parser(buffer_pointer);
-            render.run();
+            gl.json_parser(buffer_pointer);
+            gl.draw();
         }
         socket.cleanup();
     }
