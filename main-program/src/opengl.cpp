@@ -29,6 +29,11 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 void GL::draw(void)
 {
+    glEnableVertexAttribArray(vpos_location);
+    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) 0);
+
+    glEnableVertexAttribArray(vcol_location);
+    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) (sizeof(float) * 2));
     float ratio;
     int width, height;
     mat4x4 m, p, mvp;
@@ -52,7 +57,7 @@ void GL::draw(void)
 
     /* link to the shader */
     glUseProgram(program);
-    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+    glUniformMatrix4fv(mvp_location, 1, GL_FALSE, &data[0].x );
     glDrawArrays(GL_LINE_STRIP, 0, 3);
 
     /* convenient glfw functions for updating window and getting window input events */
@@ -160,10 +165,4 @@ void GL::compile_shader(void)
     mvp_location = glGetUniformLocation(program, "MVP");
     vpos_location = glGetAttribLocation(program, "vPos");
     vcol_location = glGetAttribLocation(program, "vCol");
-
-    glEnableVertexAttribArray(vpos_location);
-    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) 0);
-
-    glEnableVertexAttribArray(vcol_location);
-    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) (sizeof(float) * 2));
 }
