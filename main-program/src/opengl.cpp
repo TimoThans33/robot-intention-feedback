@@ -29,11 +29,6 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 void GL::draw(void)
 {
-    glEnableVertexAttribArray(vpos_location);
-    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) 0);
-
-    glEnableVertexAttribArray(vcol_location);
-    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(Data), (void*) (sizeof(float) * 2));
     float ratio;
     int width, height;
     mat4x4 m, p, mvp;
