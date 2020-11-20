@@ -1,10 +1,7 @@
 #include "opengl.h"
 #include "socketdev.h"
 
-#define ISVALIDSOCKET(s) ((s) >= 0)
-#define CLOSESOCKET(s) close(s)
-#define SOCKET int
-#define GETSOCKETERRNO() (errno)
+
 
 //#define DEBUG
 
@@ -18,12 +15,15 @@ int main(int argc, char* argv[]){
         socket.init_socket();
         /* initiate the window */
         gl.init_window();
-        /* read the user defined shader program */
-        gl.compile_shader();
         /* socket connections */
         socket.print_addr();
         socket.create();
         socket.make_connection();
+        /*assign some value to memory and render the first frame */
+        buffer_pointer = socket.run();
+        gl.json_parser(buffer_pointer);
+        gl.compile_shader();
+        gl.draw();
         while(1){
             buffer_pointer = socket.run();
             gl.json_parser(buffer_pointer);
