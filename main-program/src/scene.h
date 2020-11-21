@@ -1,5 +1,5 @@
-#ifndef OPENGL_H
-#define OPENGL_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,22 +17,16 @@
 #include <string.h>
 #include <fstream>
 
-class GL{
+class Scene
+{
     GLFWwindow* window;
     GLuint vao, vertex_buffer, vertex_shader, fragment_shader, program;
     GLint mvp_location, vpos_location, vcol_location;
+    const char* fragment_shader_text;
+    const char* vertex_shader_text;
     public:
-        // json declerations
-        struct json_object *parsed_json;
-        struct json_object *x;
-        struct json_object *y;
-        struct json_object *x_id;
-        struct json_object *y_id;
-
-        size_t data_points;
-        void init_window(void);
-        void json_parser(char *socket_data);
-        void draw(void);
         void compile_shader(void);
+        void init_glfw(void);
+        void draw(void);
 };
 #endif
