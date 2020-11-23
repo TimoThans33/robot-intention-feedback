@@ -23,17 +23,15 @@ int main(int argc, char* argv[]){
         socket.create();
         socket.make_connection();
         /*assign some value to memory and render the first frame */
-        buffer_pointer = socket.run();
+        // buffer_pointer = socket.run();
         // scene.json_parser(buffer_pointer);
-        scene.compile_shader(buffer_pointer);
+        int success = scene.compile_shader();
         // scene.draw();
-        while(1){
-            // buffer_pointer = socket.run();
-            // scene.json_parser(buffer_pointer);
-            // scene.compile_shader(buffer_pointer);
-            scene.draw();
+        while(success==1){
+            buffer_pointer = socket.run();
+            scene.draw(buffer_pointer);
         }
-        // socket.cleanup();
+        socket.cleanup();
     }
     catch(...){
         std::cout<<"Error occured..."<<std::endl;

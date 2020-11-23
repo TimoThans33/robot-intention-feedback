@@ -32,9 +32,9 @@ class Scene
         struct json_object *x_id;
         struct json_object *y_id;
 
-        void compile_shader(char *);
+        int compile_shader(void);
         void init_glfw(void);
-        void draw(void);
+        void draw(char *);
         // void json_parser(char *);
         void glfw_cleanup(void);
 };
