@@ -144,7 +144,7 @@ void Scene::draw(char * socket_data)
     ratio = width / (float) height;
 
     // glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
-    glViewport(0, 0, width, height);
+    glViewport(-1200, 0, width*3.8, height);
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -195,7 +195,7 @@ void Scene::draw(char * socket_data)
     glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-    glDrawArrays(GL_LINE_STRIP, 0, 100);
+    glDrawArrays(GL_LINE_STRIP, 0, 99);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
