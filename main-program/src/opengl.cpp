@@ -23,7 +23,7 @@ void drawArray(void)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, 0.4, -0.8, 0.8, 0.0f, 100.);
+    glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
