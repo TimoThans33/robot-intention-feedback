@@ -40,7 +40,7 @@ void drawArray(void)
     */
     glVertexPointer(2, GL_FLOAT, sizeof(Data), &data[0].x );
     glColorPointer(3, GL_FLOAT, sizeof(Data), &data[0].r);
-    glPointSize( 3.0 );
+    glPointSize( 7.0 );
     glDrawArrays(GL_LINE_STRIP, 0, data.size());
 
     glDisableClientState(GL_VERTEX_ARRAY);
