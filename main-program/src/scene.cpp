@@ -195,7 +195,7 @@ void Scene::draw(char * socket_data)
     glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-    glDrawArrays(GL_LINE_STRIP, 0, 99);
+    glDrawArrays(GL_LINE_STRIP, 0, data_points);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
