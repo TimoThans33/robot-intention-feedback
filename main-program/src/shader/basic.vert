@@ -1,11 +1,9 @@
 #version 450
-lets make an obvious error!!
 uniform mat4 MVP;
-layout(location=0) in vec3 vCol;
-layout(location=1) in vec2 vPos;
-out vec3 color;
+attribute vec2 vertex_buffer;
+varying vec4 color;
 void main()
 {
-    gl_Position = MVP * vec4(vPos, 0, 1.0);
-    color = vCol;
+    gl_Position = MVP * vec4(vertex_buffer.x, vertex_buffer.y, 0, 1.0);
+    color = vec4(1.0 , 0.0, 0.0, 1.0);
 }

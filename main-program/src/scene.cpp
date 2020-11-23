@@ -1,6 +1,8 @@
 #include "scene.h"
 
-static const struct Data
+/* Test data structure */
+/*
+static const struct Test
 {
     float x, y;
     float r, g, b;
@@ -10,6 +12,14 @@ static const struct Data
     {  0.6f, -0.4f, 0.f, 1.f, 0.f },
     {   0.f,  0.6f, 0.f, 0.f, 1.f }
 };
+*/
+/* VBO data structure */
+struct Data
+{
+    /* data */
+    GLfloat x, y;
+};
+
 /* Setting an error callback */
 static void error_callback(int error, const char* description)
 {
@@ -22,7 +32,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 /* link shader with VBO */
-void Scene::compile_shader(void)
+void Scene::compile_shader(char *socket_data)
 {
     /* use fstream to read data from file into array */
     std::ifstream fs("src/shader/basic.frag");
@@ -36,13 +46,7 @@ void Scene::compile_shader(void)
     /* give some feedback to the user */
     std::cout<<"using vertex shader : \n"<<vertex_shader_text<<std::endl;
     std::cout<<"using fragment shader : \n"<<fragment_shader_text<<std::endl;
-    // std::cout<<"addres of the struct : "<<&data[0].x<<std::endl;
-    /* allocate and initialize a buffer object */
-    /*
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    */
+
     vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
     glCompileShader(vertex_shader);
@@ -100,36 +104,45 @@ void Scene::compile_shader(void)
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
-    /*
-    mvp_location = glGetUniformLocation(program, "MVP");
-    vpos_location = glGetAttribLocation(program, "vPos");
-    vcol_location = glGetAttribLocation(program, "vCol");
-    
-    glEnableVertexAttribArray(vpos_location);
-    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(vertices[0]), (void*) 0);
-    glEnableVertexAttribArray(vcol_location);
-    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(vertices[0]), (void*) (sizeof(float) * 2));
-    */
     /* create the vertex array object */
-    glCreateVertexArrays(1, &vao);
-    /* Allocate and initialize a buffer object */
-    glCreateBuffers(1, &vertex_buffer);
-    glNamedBufferStorage(vertex_buffer, sizeof(vertices), vertices, 0);
-    /* Set p two vertex attributes - first positions */
-    glVertexArrayAttribBinding(vao, 1, 0);
-    glVertexArrayAttribFormat(vao, 1, 2, GL_FLOAT, GL_FALSE, offsetof(Data, x));
-    glEnableVertexAttribArray(1);
-    /* now the colors */
-    glVertexArrayAttribBinding(vao, 0, 0);
-    glVertexArrayAttribFormat(vao, 0, 3, GL_FLOAT, GL_FALSE, offsetof(Data, r));
-    glEnableVertexAttribArray(0);
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
     /* The MVP matrix */
     mvp_location = glGetUniformLocation(program, "MVP");
-    /* Finally, bind our one and only buffer to the vertex array object */
-    glVertexArrayVertexBuffer(vao, 0, vertex_buffer, offsetof(Data, x), sizeof(vertices[0]));
+    /* Fill the array with json values */
+    size_t data_points;
+
+    Data vertices[100];
+
+    parsed_json = json_tokener_parse(socket_data);
+
+    json_object_object_get_ex(parsed_json, "x", &x);
+    json_object_object_get_ex(parsed_json, "y", &y);
+
+    data_points = json_object_array_length(x);
+    std::cout<<"Number of data points : "<<data_points<<std::endl;
+
+    for(int i=0;i<data_points;i++){
+        x_id = json_object_array_get_idx(x, i);
+        y_id = json_object_array_get_idx(y, i);
+#ifdef DEBUG
+        printf("x : %lu. %s\n", i+1, json_object_get_string(x_id));
+        printf("y : %lu. %s\n", i+1, json_object_get_string(y_id));
+#endif
+        std::string x_coord = json_object_get_string(x_id);
+        std::string y_coord = json_object_get_string(y_id);
+        std::string::size_type sz;
+
+        vertices[i].x = std::stof (x_coord,&sz);
+        vertices[i].y = std::stof (y_coord,&sz);
+        std::cout<<"x = "<<vertices[i].x<<std::endl;
+        std::cout<<"y = "<<vertices[i].x<<std::endl;
+    }
+    std::cout<<"------------------"<<std::endl;
+    /* copy the array to the buffer object */
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
+
 /* initiate GLFW */
 void Scene::init_glfw(void)
 {
@@ -165,20 +178,75 @@ void Scene::draw()
     glfwGetFramebufferSize(window, &width, &height);
     ratio = width / (float) height;
 
+    // glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
     glViewport(0, 0, width, height);
+
+    glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
     mat4x4_identity(m);
-    mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+    mat4x4_rotate_Y(m, m, 0.0);// mat4x4_rotate_Z(m, m, (float) glfwGetTime());
     mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
     mat4x4_mul(mvp, p, m);
 
     glUseProgram(program);
+    /* Draw using the vertices in our vertex buffer object */
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+    glEnableVertexAttribArray(vertex_buffer);
+    glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_LINE_STRIP, 0, 100);
 
     glfwSwapBuffers(window);
     glfwPollEvents();
-    if (glfwWindowShouldClose(window))
+    if (glfwWindowShouldClose(window)){
+        glfw_cleanup();
         throw;
+    }
+}
+/*
+void Scene::json_parser(char *socket_data){
+    size_t data_points;
+    
+    data.clear();
+
+    parsed_json = json_tokener_parse(socket_data);
+
+    json_object_object_get_ex(parsed_json, "x", &x);
+    json_object_object_get_ex(parsed_json, "y", &y);
+
+    data_points = json_object_array_length(x);
+    std::cout<<"Number of data points : "<<data_points<<std::endl;
+
+    for(int i=0;i<data_points;i++){
+        Data render_data;
+        x_id = json_object_array_get_idx(x, i);
+        y_id = json_object_array_get_idx(y, i);
+#ifdef DEBUG
+        printf("x : %lu. %s\n", i+1, json_object_get_string(x_id));
+        printf("y : %lu. %s\n", i+1, json_object_get_string(y_id));
+#endif
+        std::string x_coord = json_object_get_string(x_id);
+        std::string y_coord = json_object_get_string(y_id);
+        std::string::size_type sz;
+
+        render_data.x = std::stof (x_coord,&sz);
+        render_data.y = std::stof (y_coord,&sz);
+        std::cout<<"x = "<<render_data.x<<std::endl;
+        std::cout<<"y = "<<render_data.x<<std::endl;
+        render_data.r = array_color[0];
+        render_data.g = array_color[1];
+        render_data.b = array_color[2];
+        data.push_back(render_data);
+    }
+    std::cout<<"------------------"<<std::endl;
+}
+*/
+void Scene::glfw_cleanup(void){
+    glfwDestroyWindow(window);
+
+    glfwTerminate();
+    exit(EXIT_SUCCESS);
 }

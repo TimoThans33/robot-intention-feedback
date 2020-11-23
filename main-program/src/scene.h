@@ -20,13 +20,22 @@
 class Scene
 {
     GLFWwindow* window;
-    GLuint vao, vertex_buffer, vertex_shader, fragment_shader, program;
+    GLuint vbo, vertex_buffer, vertex_shader, fragment_shader, program;
     GLint mvp_location, vpos_location, vcol_location;
     const char* fragment_shader_text;
     const char* vertex_shader_text;
     public:
-        void compile_shader(void);
+        // json declerations
+        struct json_object *parsed_json;
+        struct json_object *x;
+        struct json_object *y;
+        struct json_object *x_id;
+        struct json_object *y_id;
+
+        void compile_shader(char *);
         void init_glfw(void);
         void draw(void);
+        // void json_parser(char *);
+        void glfw_cleanup(void);
 };
 #endif

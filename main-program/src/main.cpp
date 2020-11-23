@@ -9,7 +9,7 @@
 //#define DEBUG
 
 int main(int argc, char* argv[]){
-    try {
+    try {   
         char *buffer_pointer;
 
         socket_programming socket(argc, argv);
@@ -24,12 +24,13 @@ int main(int argc, char* argv[]){
         socket.make_connection();
         /*assign some value to memory and render the first frame */
         buffer_pointer = socket.run();
-        // gl.json_parser(buffer_pointer);
-        scene.compile_shader();
-        // gl.draw();
+        // scene.json_parser(buffer_pointer);
+        scene.compile_shader(buffer_pointer);
+        // scene.draw();
         while(1){
-            buffer_pointer = socket.run();
-            // gl.json_parser(buffer_pointer);
+            // buffer_pointer = socket.run();
+            // scene.json_parser(buffer_pointer);
+            // scene.compile_shader(buffer_pointer);
             scene.draw();
         }
         // socket.cleanup();

@@ -76,6 +76,7 @@ char * socket_programming::run(void){
     if (FD_ISSET(socket_peer, &reads)){
         bytes_received = recv(socket_peer, read, 8192, 0);
     if (bytes_received < 1) {
+        cleanup();
         std::cout << "Connection closed by peer.\n" << std::endl;
         throw;
     }
