@@ -29,7 +29,7 @@ int main(int argc, char* argv[]){
         socket.print_addr();
         socket.create();
         socket.make_connection();
-        /* read the defined shaders */
+        /* read the defined shaders into a char array */
         char vs_direction[] = "src/shader/basic.vert";
         char fs_direction[] = "src/shader/basic.frag";
 
@@ -72,6 +72,7 @@ int main(int argc, char* argv[]){
         int main_flag = 0;
 
         while(main_flag==0){
+            /* get json data from socket */
             buffer_pointer = socket.run();
             /* the draw function will return non-zero upon exit */
             main_flag = scene.draw(buffer_pointer);
