@@ -22,8 +22,8 @@ class Scene
     GLFWwindow* window;
     GLuint vbo, vertex_buffer, vertex_shader, fragment_shader, program;
     GLint mvp_location, vpos_location, vcol_location;
-    const char* fragment_shader_text;
-    const char* vertex_shader_text;
+    const char* fragment_shader_text_test;
+    const char* vertex_shader_text_test;
     public:
         // json declerations
         struct json_object *parsed_json;
@@ -32,10 +32,11 @@ class Scene
         struct json_object *x_id;
         struct json_object *y_id;
 
+        std::string read_shader(char direction[]);
+        int get_compile_data(GLuint shader);
         int compile_shader(void);
         void init_glfw(void);
-        void draw(char *);
-        // void json_parser(char *);
+        int draw(char *socket_data);
         void glfw_cleanup(void);
 };
 #endif
