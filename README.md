@@ -2,13 +2,47 @@
 This repository includes the code usd for the bachelor thesis 'robot intention feedback' in the Delft Centre for Systems and Control.
 Documentation for this project can be found here: [Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
 
-Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch
+Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch. I would advise you to clone the repository in /usr/home/projects.
 ```
+mkdir /usr/home/projects && cd /usr/home/projects
 git clone https://github.com/TimoThans33/robot-intention-feedback.git
 ```
 ```
-git checkout DLP-Lightcrafter-2000
+git checkout development
 ```
+## Development branch
+New features that are included:
+* implement GLFW
+* implement GLSL compiler
+* implement vertex shader
+* implement fragment shader
+## Why would you want these new features?
+* glfw is an opengl and x11 window manager. This will simplify the process of showing our graphics in a window. The great thing about glfw is that it also works on embedded linux.
+* GLSL is short for openGL Shader Language. It's very similar to C syntax but you need a different compiler. This compiler is included with opengl 3.0 or newer. The basic.vert and basic.frag files are written in GLSL.
+* vertex and fragment shaders gives you more options to control the graphics pipeline of openGL. With them we can make optimal use of the video/graphics card on the computer to make fancy graphics. For example we could implement filters, shadows, calculate every pixel color individually.
+## New dependecies
+For this program to work we need GLFW as discussed before and GLAD. GLAD is a online driver manager, it will find the drivers of the graphics / video card on your system and use them to compile openGL code. This is necessary from openGL 3 onwards as it relies more heavily on the graphics card.
+This should install glfw for you:
+```
+sudo apt-get install git cmake
+mkdir /usr/home/bin && cd /usr/home/bin
+git clone https://github.com/glfw/glfw.git
+mkdir /usr/home/bin/glfw-3.3.2/build && cd /usr/home/bin/glfw-3.3.2/build
+cmake ../
+make
+sudo make install
+```
+Then you need to copy the correct files to the correct directories.
+first glad.h which you can find in this github repository:
+```
+sudo mkdir /usr/include/glad
+sudo cp /usr/home/projects/robot-intention-feedback/glad.h /usr/include/glad
+```
+Then you need to copy the include folder from the glfw directory
+```
+sudo cp -r /usr/home/bin/glfw-3.3.2/include/glfw /usr/include/
+```
+This should work but has not been tested. Feedback is welcome ;p.
 ## Getting started BeagleBone
 To run the examples we need to start an X11 server on the BeagleBone Black. On a computer with
 a desktop environment this is not necessary. 
@@ -42,7 +76,7 @@ compile the main program with a Makefile. Make sure you navigate with the cd com
 ```
 make main-program
 ```
-If you are not connected to a robot you can start the simulation. You do have to pass the correct ip-address and port. For example the localhost: 127.0.0.1. (main-program and main-sim.py should both be runned in their own terminal, start with the sim which contains coordinates for the main-program to run)
+If you are not connected to a robot you can start the simulation. You do have to pass the correct ip-address and port. For example the localhost: 127.0.0.1. (main-program and main-sim.py should both be runned in their own terminal, start with the sim which contains coordinates for the main-program to run). You can also use the ip address of the beaglebone 192.168.7.1 8080
 ```
 python3 main-sim.py 127.0.0.1 8080
 ```
@@ -51,18 +85,6 @@ and port. This should get you started.
 ```
 ./main-program 127.0.0.1 8080
 ```
-### High level example
-We have opt to try out our solution in python. It is simulation in which the program reads a csv
-file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot. Running this program will give you an idea of what path the robot will follow.
-
-```
-python3 plot-path.py
-```
-### Main Program Architecture
-![trajectory sim](Images/79183.jpg)
-This is briefly the software architecture. But again I would refer you to the project website.
-[Go to the project web site](https://timothans33.github.io/robot-intention-feedback)
-
 ## Resources
 ```
 Hands-On Network Programming with C: Learn Socket Programming in C
@@ -112,6 +134,13 @@ sudo apt install xorg
 According to Qt for Debian-base GNU/Linux systems we need to install a bunch of drivers. Some might already be have been installed some not. Just run the shell script I included.
 ```
 ./QtInstallDependecies.sh
+```
+### High level example
+We have opt to try out our solution in python. It is simulation in which the program reads a csv
+file with robot coordinates. Our program then transforms these coordinates to the robot frame and projects the coordinates up to 1 meter in fron of the robot. Running this program will give you an idea of what path the robot will follow.
+
+```
+python3 plot-path.py
 ```
 ### Qt-support
 For typical user interfaces we can utilize Qt. The python samples can be started using:

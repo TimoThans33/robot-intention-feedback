@@ -86,6 +86,7 @@ int Scene::draw(char *socket_data)
 
     // glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
     glViewport(0, 0, width, height);
+
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
