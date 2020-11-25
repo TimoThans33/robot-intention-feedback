@@ -14,7 +14,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 /* read the text from the basic.frag and basic.frag files, return the contents of
 the defined file as a char array (string) */
-std::string Scene::read_shader(char *direction)
+std::string Scene::read_shader(char direction[])
 {
     /* use fstream to read data from file into array */
     std::ifstream in(direction);
@@ -60,7 +60,7 @@ void Scene::init_glfw(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
  
-    window = glfwCreateWindow(640, 360, "Simple example", glfwGetPrimaryMonitor(), NULL);
+    window = glfwCreateWindow(640, 360, "Simple example", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -84,7 +84,6 @@ int Scene::draw(char *socket_data)
     glfwGetFramebufferSize(window, &width, &height);
     ratio = width / (float) height;
 
-    // glOrtho(0.0, 0.4, -0.2, 0.2, 0.0f, 100.);
     glViewport(0, 0, width, height);
 
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -92,10 +91,11 @@ int Scene::draw(char *socket_data)
 
     mat4x4_identity(m);
     /* This will rotate the projection */
-    mat4x4_rotate_Y(m, m, 10.0);// mat4x4_rotate_Z(m, m, (float) glfwGetTime());
-    mat4x4_ortho(p, 0, ratio, -0.2f, 0.2f, 0.f, 100.f);
+    mat4x4_rotate_Y(m, m, 0.0);// mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+    mat4x4_ortho(p, 0.f, 0.7, -.3f, .3f, 1.f, -1.f);
+    // mat4x4_scale(m, m, 6 );
     mat4x4_mul(mvp, p, m);
-
+    
     glUseProgram(program);
     /* Draw using the vertices in our vertex buffer object */
     /* create the vertex array object */
@@ -135,7 +135,7 @@ int Scene::draw(char *socket_data)
 
     glEnableVertexAttribArray(vertex_buffer);
     glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
+    
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
     glDrawArrays(GL_LINE_STRIP, 0, data_points);
 
@@ -166,78 +166,45 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 /* link shader with VBO >> DEPRECIATED!*/
-int Scene::compile_shader(void)
+int Scene::link_shader(char vs_direction[], char fs_direction[])
 {
-    /* use fstream to read data from file into array */
-    std::ifstream fs("src/shader/basic.frag");
-    std::string fs_contents((std::istreambuf_iterator<char>(fs)),
-        std::istreambuf_iterator<char>());
-    const char* fragment_shader_text_test = fs_contents.c_str();
-    std::ifstream vs("src/shader/basic.vert");
-    std::string vs_contents((std::istreambuf_iterator<char>(vs)),
-        std::istreambuf_iterator<char>());
-    const char* vertex_shader_text_test = vs_contents.c_str();
-    /* give some feedback to the user */
-    std::cout<<"using vertex shader : \n"<<vertex_shader_text_test<<std::endl;
-    std::cout<<"using fragment shader : \n"<<fragment_shader_text_test<<std::endl;
+    vertex_shader_text = read_shader(vs_direction);
+    vs_text = vertex_shader_text.c_str();
+    std::cout<<"using vertex shader : \n"<<vs_text<<std::endl;
 
     vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex_shader, 1, &vertex_shader_text_test, NULL);
+    glShaderSource(vertex_shader, 1, &vs_text, NULL);
     glCompileShader(vertex_shader);
 
-    GLint vs_isCompiled = 0;
-    std::cout<<"address of error flag : "<<&vs_isCompiled<<std::endl;
-    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &vs_isCompiled);
-    if(vs_isCompiled == GL_FALSE)
-    {
-        GLint maxLength = 0;
-        std::cout<<"address of maxLength : "<<&maxLength<<" | value : "<< maxLength <<std::endl;
-        glGetShaderiv(vertex_shader, GL_INFO_LOG_LENGTH, &maxLength);
-        std::cout<<"value of maxLength : "<< maxLength << std::endl;
-
-        // The maxLength includes the NULL character
-        std::vector<GLchar> errorLog(maxLength);
-        std::cout<<"address of errorlog : "<<&errorLog[0]<<std::endl;
-        glGetShaderInfoLog(vertex_shader, maxLength, &maxLength, &errorLog[0]);
-
-        // Provide the infolog in whatever manor you deem best.
-        // Exit with failure.
-        glDeleteShader(vertex_shader); // Don't leak the shader.
-        std::cout<<"Error in compiling the vertex shader" << errorLog[0] << std::endl;
-        for(int i=0; i<maxLength; i++){
-            std::cout<<errorLog[i];
-        }
+    vertex_flag = get_compile_data(vertex_shader);
+    if (vertex_flag==1){
+        std::cout<<"Error when compiling"<<std::endl;
         throw;
     }
+
+    std::cout<<"using vertex shader : \n"<<vs_text<<std::endl;
+
+    fragment_shader_text = read_shader(fs_direction);
+    fs_text = fragment_shader_text.c_str();
+
+    std::cout<<"using the fragment shader : \n"<<fs_text<<std::endl;
 
     fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragment_shader, 1, &fragment_shader_text_test, NULL);
+    glShaderSource(fragment_shader, 1, &fs_text, NULL);
     glCompileShader(fragment_shader);
- 
-    GLint fs_isCompiled = 0;
-    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &fs_isCompiled);
-    if(fs_isCompiled == GL_FALSE)
-    {
-        GLint maxLength = 0;
-        glGetShaderiv(fragment_shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-        // The maxLength includes the NULL character
-        std::vector<GLchar> errorLog(maxLength);
-        glGetShaderInfoLog(fragment_shader, maxLength, &maxLength, &errorLog[0]);
-
-        // Provide the infolog in whatever manor you deem best.
-        // Exit with failure.
-        glDeleteShader(fragment_shader); // Don't leak the shader.
-        std::cout<<"Error in compiling the fragment shader :"<<std::endl;
-        for(int i=0; i<maxLength; i++){
-            std::cout<<errorLog[i];
-        }
+    fragment_flag = get_compile_data(fragment_shader);
+    if (fragment_flag==1){
+        std::cout<<"Error when compile the fragment shader"<<std::endl;
         throw;
     }
+
+    std::cout<<"using the fragment shader : \n"<<fs_text<<std::endl;
+
     program = glCreateProgram();
     glAttachShader(program, vertex_shader);
     glAttachShader(program, fragment_shader);
     glLinkProgram(program);
 
-    return 1;
+    return 0;
 }
