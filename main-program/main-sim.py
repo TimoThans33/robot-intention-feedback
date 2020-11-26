@@ -65,7 +65,7 @@ class simulation(threading.Thread):
         print(self.data.ndim)
         print(self.data)
     def run(self):
-        for i in range(len(self.x_robot)): 
+        for i in range(len(self.x_robot)-1): 
             #print("Iteration: ", i)
             # read current angle and create the rotation matrix
             self.theta = self.angle[i]
