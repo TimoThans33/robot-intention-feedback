@@ -4,7 +4,7 @@ Documentation for this project can be found here: [Go to the project web site](h
 
 Of course you want to get started with this exciting project ASAP. First clone this repository and change to the correct branch. I would advise you to clone the repository in /usr/home/projects.
 ```
-mkdir /usr/home/projects && cd /usr/home/projects
+mkdir /home/"username"/projects && cd /home/"username"/projects
 git clone https://github.com/TimoThans33/robot-intention-feedback.git
 ```
 ## Development branch
