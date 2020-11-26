@@ -135,7 +135,8 @@ int Scene::draw(char *socket_data)
 
     glEnableVertexAttribArray(vertex_buffer);
     glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    
+    /* changing the linewidth like this is depreceated in modern openGL... it is better to construct a geometry shader */
+    glLineWidth( 60.0 );
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
     glDrawArrays(GL_LINE_STRIP, 0, data_points);
 
