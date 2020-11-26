@@ -7,9 +7,6 @@ Of course you want to get started with this exciting project ASAP. First clone t
 mkdir /usr/home/projects && cd /usr/home/projects
 git clone https://github.com/TimoThans33/robot-intention-feedback.git
 ```
-```
-git checkout development
-```
 ## Development branch
 New features that are included:
 * implement GLFW
