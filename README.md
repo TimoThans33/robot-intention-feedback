@@ -22,9 +22,9 @@ For this program to work we need GLFW as discussed before and GLAD. GLAD is a on
 This should install glfw for you:
 ```
 sudo apt-get install git cmake
-mkdir /usr/home/bin && cd /usr/home/bin
+mkdir /home/"username"/bin && cd /home/"username"/bin
 git clone https://github.com/glfw/glfw.git
-mkdir /usr/home/bin/glfw-3.3.2/build && cd /usr/home/bin/glfw-3.3.2/build
+mkdir /home/"username"/bin/glfw-3.3.2/build && cd /home/"username"/bin/glfw-3.3.2/build
 cmake ../
 make
 sudo make install
