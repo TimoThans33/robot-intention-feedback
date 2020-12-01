@@ -5,6 +5,12 @@ struct Data
 {
     /* data */
     GLfloat x, y;
+    GLfloat r, g, b;
+};
+
+struct Velocity
+{
+    GLfloat v;
 };
 
 /* Function Prototypes */
@@ -103,6 +109,7 @@ int Scene::draw(char *socket_data)
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     /* The MVP matrix */
     mvp_location = glGetUniformLocation(program, "MVP");
+    vcol_location = glGetAttribLocation(program, "velocity_color");
     /* Fill the array with json values */
     size_t data_points;
 
@@ -110,34 +117,50 @@ int Scene::draw(char *socket_data)
 
     json_object_object_get_ex(parsed_json, "x", &x);
     json_object_object_get_ex(parsed_json, "y", &y);
+    json_object_object_get_ex(parsed_json, "v", &v);
 
     data_points = json_object_array_length(x);
     std::cout<<"Number of data points : "<<data_points<<std::endl;
 
     Data vertices[data_points];
+    Velocity data[data_points];
 
     for(int i=0;i<data_points;i++){
         x_id = json_object_array_get_idx(x, i);
         y_id = json_object_array_get_idx(y, i);
+        v_id = json_object_array_get_idx(v, i);
 
         std::string x_coord = json_object_get_string(x_id);
         std::string y_coord = json_object_get_string(y_id);
+        std::string v_coord = json_object_get_string(v_id);
         std::string::size_type sz;
 
         vertices[i].x = std::stof (x_coord,&sz);
         vertices[i].y = std::stof (y_coord,&sz);
+        data[i].v = std::stof (v_coord,&sz);
+
+        vertices[i].r = data[i].v / 1.0;
+        vertices[i].g = 1 - data[i].v / 1.0;
+        vertices[i].b = 0.0;
+
         std::cout<<"x = "<<vertices[i].x<<std::endl;
-        std::cout<<"y = "<<vertices[i].x<<std::endl;
+        std::cout<<"y = "<<vertices[i].y<<std::endl;
+        std::cout<<"v = "<<data[i].v<<std::endl;
     }
     std::cout<<"------------------"<<std::endl;
     /* copy the array to the buffer object */
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(vertex_buffer);
-    glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), 0);
+
+    glEnableVertexAttribArray(vcol_location);
+    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) (sizeof(float) * 2));
+
     /* changing the linewidth like this is depreceated in modern openGL... it is better to construct a geometry shader */
     glLineWidth( 60.0 );
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+
     glDrawArrays(GL_LINE_STRIP, 0, data_points);
 
     glfwSwapBuffers(window);

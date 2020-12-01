@@ -34,8 +34,10 @@ class Scene
         struct json_object *parsed_json;
         struct json_object *x;
         struct json_object *y;
+        struct json_object *v;
         struct json_object *x_id;
         struct json_object *y_id;
+        struct json_object *v_id;
     public:
         GLuint program;
         std::string read_shader(char direction[]);

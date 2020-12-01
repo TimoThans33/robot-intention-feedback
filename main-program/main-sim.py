@@ -11,8 +11,10 @@ import sys
 #HOST =  '127.0.0.1' # localhost
 #PORT = 8085
 
+# width and height of the projection
 WIDTH = 0.2/2
 HEIGHT = 0.2
+# number of timesteps that are projects
 T = 100
 
 class sockets(threading.Thread):
@@ -35,9 +37,11 @@ class sockets(threading.Thread):
                     if not self.data_client:
                         break
                     self.data = self.q2.get()
+                    # send data over the socket
                     self.data_x = self.data[0]
                     self.data_y = self.data[1]
-                    self.data_json = json.dumps({"x": self.data_x.tolist(), "y": self.data_y.tolist()})
+                    self.data_v = self.data[2]
+                    self.data_json = json.dumps({"x": self.data_x.tolist(), "y": self.data_y.tolist(), "v": self.data_v.tolist()})
                     self.conn.send(self.data_json.encode())
             self.conn.close()
 
@@ -58,6 +62,7 @@ class simulation(threading.Thread):
         self.y_robot = self.data["y_out"]
         self.time = self.data["time"]
         self.kernel = np.array([[0, self.width],[self.height, self.width], [self.height, -self.width], [0, -self.width], [0, self.width]])
+
 
         print("[message] Initializing simulation...")
         print("[message] Showing data type:")
@@ -84,10 +89,14 @@ class simulation(threading.Thread):
             # rotate the coordinates to the robot-frame
             self.rot_coord = np.matmul(np.transpose(self.coord), self.rot_mat)
 
+            # get the velocity data
+            self.v_array = np.array(self.velocity[1+i:i+self.t])
+
             # check if a request is send
             while not self.q1.empty():
                 msg = self.q1.get()
-                data = [ np.transpose(self.rot_coord)[0]-np.transpose(self.rot_coord)[0][0], np.transpose(self.rot_coord)[1]-np.transpose(self.rot_coord)[1][0]] 
+                data = [ np.transpose(self.rot_coord)[0]-np.transpose(self.rot_coord)[0][0], np.transpose(self.rot_coord)[1]-np.transpose(self.rot_coord)[1][0], np.transpose(self.v_array) ] 
+                print(data)
                 self.q2.put(data)
             
             # get accurate timing
