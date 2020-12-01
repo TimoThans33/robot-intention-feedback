@@ -32,16 +32,23 @@ class sockets(threading.Thread):
             with self.conn:
                 while True:
                     print('connected by', self.addr)
+                    # let simulation know we connected
                     self.q1.put("connected")
                     self.data_client = self.conn.recv(4096)
                     if not self.data_client:
                         break
+
+                    # get the data from the simulation
                     self.data = self.q2.get()
+
                     # send data over the socket
                     self.data_x = self.data[0]
                     self.data_y = self.data[1]
                     self.data_v = self.data[2]
+                    
+                    # json format
                     self.data_json = json.dumps({"x": self.data_x.tolist(), "y": self.data_y.tolist(), "v": self.data_v.tolist()})
+                    # send json array
                     self.conn.send(self.data_json.encode())
             self.conn.close()
 
@@ -106,10 +113,12 @@ class simulation(threading.Thread):
 
 
 if __name__ == "__main__":
+    # get command line input
     print("Number of arguments: ", len(sys.argv), "arguments\n")
     print("Argument List: ", str(sys.argv))
     HOST = sys.argv[1]
     PORT = int(sys.argv[2])
+    # initiate request (Q1) and message (Q2) queue 
     request_queue = Queue()
     msg_queue = Queue()
     # creating objects of classes
