@@ -66,7 +66,7 @@ void Scene::init_glfw(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
  
-    window = glfwCreateWindow(640, 360, "Simple example", NULL, NULL);
+    window = glfwCreateWindow(640, 360, "Simple example", glfwGetPrimaryMonitor(), NULL);
     if (!window)
     {
         glfwTerminate();
@@ -99,6 +99,7 @@ int Scene::draw(char *socket_data)
     /* This will rotate the projection */
     mat4x4_rotate_Y(m, m, 0.0);// mat4x4_rotate_Z(m, m, (float) glfwGetTime());
     mat4x4_ortho(p, 0.f, 0.7, -.3f, .3f, 1.f, -1.f);
+    // mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
     // mat4x4_scale(m, m, 6 );
     mat4x4_mul(mvp, p, m);
     
@@ -158,7 +159,7 @@ int Scene::draw(char *socket_data)
     glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) (sizeof(float) * 2));
 
     /* changing the linewidth like this is depreceated in modern openGL... it is better to construct a geometry shader */
-    glLineWidth( 60.0 );
+    glLineWidth( 5.0 );
     glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
 
     glDrawArrays(GL_LINE_STRIP, 0, data_points);

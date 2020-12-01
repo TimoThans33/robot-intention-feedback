@@ -9,4 +9,4 @@ CC = g++
 main-program: ${OBJ}
 	${CC} ${OBJS} -o $@ ${CFLAGS} ${CFLAGSI}
 clean:
-	-rm main-program
+	-rm main-program Beaglebone

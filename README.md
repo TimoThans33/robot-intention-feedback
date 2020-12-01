@@ -21,7 +21,7 @@ New features that are included:
 For this program to work we need GLFW as discussed before and GLAD. GLAD is a online driver manager, it will find the drivers of the graphics / video card on your system and use them to compile openGL code. This is necessary from openGL 3 onwards as it relies more heavily on the graphics card.
 This should install glfw for you:
 ```
-sudo apt-get install git cmake
+sudo apt-get install git cmake xorg-dev
 mkdir /home/"username"/bin && cd /home/"username"/bin
 git clone https://github.com/glfw/glfw.git
 mkdir /home/"username"/bin/glfw-3.3.2/build && cd /home/"username"/bin/glfw-3.3.2/build
@@ -37,7 +37,7 @@ sudo cp /usr/home/projects/robot-intention-feedback/glad.h /usr/include/glad
 ```
 Then you need to copy the include folder from the glfw directory
 ```
-sudo cp -r /usr/home/bin/glfw-3.3.2/include/glfw /usr/include/
+sudo cp -r /home/"username"/bin/glfw-3.3.2/include/GLFW /usr/include/
 ```
 This should work but has not been tested. Feedback is welcome ;p.
 ## Getting started BeagleBone
