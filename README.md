@@ -50,7 +50,7 @@ Now you can SSH into the server / host computer passing -X (from the BeagleBone 
 ```
 ssh -X username@192.168.7.1
 ```
-Alternatively you can run natively on the BeagleBone black. But this has not been tested thoroughly. In this X server you can start any script you would like. For example a simple QT window.
+Alternatively you can run natively on the BeagleBone black. In this X server you can start any script you would like. For example a simple QT window.
 ```
 python3 robot-intention-feedback/Qt-examples/example-window.py
 ```
@@ -82,6 +82,15 @@ and port. This should get you started.
 ```
 ./main-program 127.0.0.1 8080
 ```
+When on the BeagleBone you can start the python script on your own laptop.
+```
+python3 main-sim.py 192.168.7.1 8080
+```
+start the main program on the BeagleBone.
+```
+./main-program 192.168.7.1 8080
+```
+
 ## Resources
 ```
 Hands-On Network Programming with C: Learn Socket Programming in C
