@@ -158,30 +158,6 @@ int Scene::draw(char *socket_data)
         std::cout<<"g = "<<data[i].g<<std::endl;
         std::cout<<"b = "<<data[i].b<<std::endl;
 #endif
-        /*
-        vertices[i].x = x_values;
-        vertices[i].y = y_values;
-
-        vertices[i].r = v_values / 1.0;
-        vertices[i].g = 1 - v_values / 1.0;
-        vertices[i].b = 0.0;
-
-        std::cout<<"x = "<<vertices[i].x<<std::endl;
-        std::cout<<"y = "<<vertices[i].y<<std::endl;
-        std::cout<<"v = "<<v_values<<std::endl;
-        
-        vertices[i].x = std::stof (x_coord,&sz);
-        vertices[i].y = std::stof (y_coord,&sz);
-        data[i].v = std::stof (v_coord,&sz);
-
-        vertices[i].r = data[i].v / 1.0;
-        vertices[i].g = 1 - data[i].v / 1.0;
-        vertices[i].b = 0.0;
-
-        std::cout<<"x = "<<vertices[i].x<<std::endl;
-        std::cout<<"y = "<<vertices[i].y<<std::endl;
-        std::cout<<"v = "<<data[i].v<<std::endl;
-        */
     }
     std::cout<<"------------------"<<std::endl;
     /* copy the array to the buffer object */
