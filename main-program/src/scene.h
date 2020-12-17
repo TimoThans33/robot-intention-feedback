@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <string.h>
 #include <fstream>
-
+#include <vector>
 class Scene
 {
     private:

@@ -52,10 +52,27 @@ class sockets(threading.Thread):
                     self.conn.send(self.data_json.encode())
             self.conn.close()
 
-class simulation(threading.Thread):
-    def __init__(self,  width, height, t, q1, q2):
+class rest(threading.Thread):
+    def __init__(self, x, y, q1, q2):
         threading.Thread.__init__(self)
-        self.data = pd.read_csv("trajectories/trajectory_2_fpg_out.txt", skiprows=11)
+        self.q1 = q1
+        self.q2 = q2
+
+        self.x = x
+        self.y = y
+    def run(self):
+            # check if a request is send
+            while not self.q1.empty():
+                msg = self.q1.get()
+                data = [ self.x, self.y, 1.0 ] 
+                print(data)
+                self.q2.put(data)
+
+
+class simulation(threading.Thread):
+    def __init__(self,  width, height, t, q1, q2):          
+        threading.Thread.__init__(self)
+        self.data = pd.read_csv("trajectories/trajectory_1_fpg_out.txt", skiprows=11)
         self.width = width
         self.height = height
         self.t = t
@@ -99,13 +116,14 @@ class simulation(threading.Thread):
             # get the velocity data
             self.v_array = np.array(self.velocity[1+i:i+self.t])
 
+
             # check if a request is send
             while not self.q1.empty():
                 msg = self.q1.get()
                 data = [ np.transpose(self.rot_coord)[0]-np.transpose(self.rot_coord)[0][0], np.transpose(self.rot_coord)[1]-np.transpose(self.rot_coord)[1][0], np.transpose(self.v_array) ] 
-                print(data)
+                # print(data)
                 self.q2.put(data)
-            
+                #input("press any key")
             # get accurate timing
             delta_time = self.time[i+1] - self.time[i]
             time.sleep(delta_time)
@@ -128,3 +146,16 @@ if __name__ == "__main__":
     # Start new threads
     socket_programming.start()
     path_simulation.start()
+
+    path_simulation.join()
+    x_data = np.array([0.0, 0.5, 0.5, 0.0])
+    y_data = np.array([0.0, 0.0, 0.5, 0.5])
+    rest_projection = rest(x_data, y_data, request_queue, msg_queue)
+    rest_projection.start()
+
+    time.sleep(20)
+    print("[message] starting next trajectory")
+
+    # Start new threads
+    path_simulation_1 = simulation(WIDTH, HEIGHT, T, request_queue, msg_queue)
+    path_simulation_1.start()

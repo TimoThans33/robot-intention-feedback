@@ -8,10 +8,18 @@ struct Data
     GLfloat r, g, b;
 };
 
+std::vector <Data> data;
+
 struct Velocity
 {
     GLfloat v;
 };
+
+// #define DEBUG
+
+float x_values = 1.0;
+float y_values = 1.0;
+float v_values = 0.5;
 
 /* Function Prototypes */
 static void error_callback(int error, const char* description);
@@ -66,7 +74,7 @@ void Scene::init_glfw(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
  
-    window = glfwCreateWindow(640, 360, "Simple example", glfwGetPrimaryMonitor(), NULL);
+    window = glfwCreateWindow(640, 360, "Simple example", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -74,7 +82,9 @@ void Scene::init_glfw(void)
     }
  
     glfwSetKeyCallback(window, key_callback);
- 
+    
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
     glfwMakeContextCurrent(window);
     gladLoadGL();
     glfwSwapInterval(1);
@@ -113,18 +123,20 @@ int Scene::draw(char *socket_data)
     vcol_location = glGetAttribLocation(program, "velocity_color");
     /* Fill the array with json values */
     size_t data_points;
-
+    
     parsed_json = json_tokener_parse(socket_data);
-
+    if(socket_data == nullptr) return 0;
     json_object_object_get_ex(parsed_json, "x", &x);
+    if(x == nullptr) return 0;
     json_object_object_get_ex(parsed_json, "y", &y);
+    if(y == nullptr) return 0;
     json_object_object_get_ex(parsed_json, "v", &v);
+    if(v == nullptr) return 0;
 
     data_points = json_object_array_length(x);
     std::cout<<"Number of data points : "<<data_points<<std::endl;
 
-    Data vertices[data_points];
-    Velocity data[data_points];
+    // struct Data vertices[data_points];
 
     for(int i=0;i<data_points;i++){
         x_id = json_object_array_get_idx(x, i);
@@ -136,6 +148,28 @@ int Scene::draw(char *socket_data)
         std::string v_coord = json_object_get_string(v_id);
         std::string::size_type sz;
 
+        data.push_back({std::stof (x_coord, &sz), std::stof (y_coord, &sz),
+                        std::stof (v_coord,&sz), 1-std::stof (v_coord, &sz), 0.0});
+
+#ifdef DEBUG
+        std::cout<<"x = "<<data[i].x<<std::endl;
+        std::cout<<"y = "<<data[i].y<<std::endl;
+        std::cout<<"r = "<<data[i].r<<std::endl;
+        std::cout<<"g = "<<data[i].g<<std::endl;
+        std::cout<<"b = "<<data[i].b<<std::endl;
+#endif
+        /*
+        vertices[i].x = x_values;
+        vertices[i].y = y_values;
+
+        vertices[i].r = v_values / 1.0;
+        vertices[i].g = 1 - v_values / 1.0;
+        vertices[i].b = 0.0;
+
+        std::cout<<"x = "<<vertices[i].x<<std::endl;
+        std::cout<<"y = "<<vertices[i].y<<std::endl;
+        std::cout<<"v = "<<v_values<<std::endl;
+        
         vertices[i].x = std::stof (x_coord,&sz);
         vertices[i].y = std::stof (y_coord,&sz);
         data[i].v = std::stof (v_coord,&sz);
@@ -147,16 +181,17 @@ int Scene::draw(char *socket_data)
         std::cout<<"x = "<<vertices[i].x<<std::endl;
         std::cout<<"y = "<<vertices[i].y<<std::endl;
         std::cout<<"v = "<<data[i].v<<std::endl;
+        */
     }
     std::cout<<"------------------"<<std::endl;
     /* copy the array to the buffer object */
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(data), &data[0], GL_STREAM_DRAW);
 
     glEnableVertexAttribArray(vertex_buffer);
-    glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), 0);
+    glVertexAttribPointer(vertex_buffer, 2, GL_FLOAT, GL_FALSE, sizeof(data[0]), 0);
 
     glEnableVertexAttribArray(vcol_location);
-    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]), (void*) (sizeof(float) * 2));
+    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE, sizeof(data[0]), (void*) (sizeof(float) * 2));
 
     /* changing the linewidth like this is depreceated in modern openGL... it is better to construct a geometry shader */
     glLineWidth( 5.0 );
@@ -164,6 +199,8 @@ int Scene::draw(char *socket_data)
 
     glDrawArrays(GL_LINE_STRIP, 0, data_points);
 
+    data.clear();
+    
     glfwSwapBuffers(window);
     glfwPollEvents();
     if (glfwWindowShouldClose(window)){
